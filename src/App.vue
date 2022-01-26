@@ -1,14 +1,13 @@
 <template>
   <div>
     <!--router-view 必须有！才可以页面跳转-->
-    <router-view/>
-
+    <router-view />
   </div>
 </template>
 
 <script>
 export default {
-  name: "App"
+  name: "App",
 };
 </script>
 
@@ -19,6 +18,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

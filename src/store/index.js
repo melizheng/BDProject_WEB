@@ -2,30 +2,30 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    token: "",
-    id: "",
+    user: {
+      id:
+        window.localStorage.getItem("user") == null
+          ? ""
+          : JSON.parse(window.localStorage.getItem("user")).id,
+      token:
+        window.localStorage.getItem("user") == null
+          ? ""
+          : JSON.parse(window.localStorage.getItem("user")).token,
+    },
   },
   mutations: {
-    setToken(state, token) {
-      state.token = token;
-    },
-    setId(state, id) {
-      state.id = id;
+    setUser(state, user) {
+      state.user = user;
+      window.localStorage.setItem("user", JSON.stringify(user));
     },
     LOGOUT(state) {
-      state.id = 0;
-      state.token = null;
-      sessionStorage.clear();
+      state.user = null;
+      window.localStorage.clear();
     },
   },
   getters: {
-    getId(state) {
-      return state.id;
-    },
-    getToken(state) {
-      return state.token;
+    getUser(state) {
+      return state.user;
     },
   },
-  actions: {},
-  modules: {},
 });
