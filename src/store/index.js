@@ -18,6 +18,8 @@ export default createStore({
       state.user = user;
       window.localStorage.setItem("user", JSON.stringify(user));
     },
+  },
+  actions: {
     LOGOUT(state) {
       state.user = null;
       window.localStorage.clear();

@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { ElMessageBox } from "element-plus";
 Axios.defaults.baseURL = "/api";
 function login() {
   this.$refs.loginFormref.validate((valid) => {
@@ -21,7 +22,11 @@ function login() {
           });
         } else {
           //登录接口返回登录失败输出原因
-          alert(successResponse.data.msg);
+          ElMessageBox.confirm(successResponse.data.msg, "提示", {
+            showCancelButton: false,
+            type: "warning",
+          });
+          return Promise.reject("error");
         }
       });
     } else {

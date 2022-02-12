@@ -33,8 +33,7 @@
 </template>
 
 <script>
-import Axios from "axios";
-Axios.defaults.baseURL = "/api";
+import api from "@/api/api";
 export default {
   name: "BDlist",
   data() {
@@ -50,30 +49,10 @@ export default {
     },
   },
   created() {
-    const that=this;
-    // const form = new FormData();
-    const options = {
-      method: "GET",
-      url: "/getbd",
-      params: { input: "", size: "2", page: "1" },
-      headers: {
-        "Content-Type":
-          "multipart/form-data; boundary=---011000010111000001101001",
-        token:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJwaG9uZSI6IjExMjEyMTIxMTExIiwidHlwZSI6MSwiaWF0IjoxNjQ0NjU2NTk0LCJleHAiOjE2NDQ3NDI5OTR9.8TchxMJ3TjzqVOIkNmqL08AVFAMHSNuwWyWx6HKWWLrg_DpDme96LXWjprQnCG-y66D4hBCGya55kMIwySGuCQ",
-      },
-      // data: form,
-    };
-
-    Axios.request(options)
-      .then(function (response) {
-        console.log(response.data.msg);
-        that.tableData=response.data.msg;
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }
+    api.getBdList({ page: "1", size: "10" }).then((res) => {
+      this.tableData = res.data.msg;
+    });
+  },
 };
 </script>
 
