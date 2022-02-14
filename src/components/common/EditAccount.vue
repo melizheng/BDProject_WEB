@@ -15,7 +15,7 @@
         <el-form-item label="姓名" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="手机号" prop="phone" >
+        <el-form-item label="手机号" prop="phone">
           <el-input v-model="ruleForm.phone" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="城市权限" prop="citySelected">
@@ -35,7 +35,7 @@
         <span class="dialog-footer">
           <el-button @click="closeDialog">取 消</el-button>
           <el-button type="primary" @click="submitForm('ruleForm')"
-          >确 定</el-button
+            >确 定</el-button
           >
         </span>
       </template>
@@ -54,8 +54,8 @@ export default {
       item: { city_code: "", city_name: "" },
       dialogVisible: false,
       ruleForm: {
-        id:"",
-        name:"",
+        id: "",
+        name: "",
         phone: "",
         citySelected: [],
         accountType: "",

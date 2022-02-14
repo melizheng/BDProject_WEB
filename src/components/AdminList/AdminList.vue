@@ -60,7 +60,7 @@
     <MyPagination :currentCount="count" @changePage="changePage" />
     <!--弹窗增加管理员用户-->
     <AddAccount ref="AddAccountDialog" />
-    <EditAccount ref="EditAccountDialog"/>
+    <EditAccount ref="EditAccountDialog" />
   </div>
 </template>
 
@@ -97,8 +97,8 @@ export default {
     /**
      * 编辑管理员信息 修改城市属性
      */
-    handleClickDetailEdit(index,row) {
-      console.log("编辑",index,row);
+    handleClickDetailEdit(index, row) {
+      console.log("编辑", index, row);
       this.$refs.EditAccountDialog.dialogVisible = true;
       this.$refs.EditAccountDialog.city = this.ALLCITY;
       this.$refs.EditAccountDialog.ruleForm.name = row.name;

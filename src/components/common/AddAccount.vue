@@ -54,7 +54,7 @@ export default {
       item: { city_code: "", city_name: "" },
       dialogVisible: false,
       ruleForm: {
-        name:"",
+        name: "",
         phone: "",
         citySelected: [],
         accountType: "",
