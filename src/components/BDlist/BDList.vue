@@ -4,13 +4,12 @@
     <div class="search">
       <MyDropdown style="width: 150px" @chooseCity="chooseCity" />
       <el-input
+        class="inputType"
         v-model="input"
         placeholder="请输入查询的BD手机号、名称"
-        @change="searchInputWithPageAndCity"
+        @change="searchInput"
       ></el-input>
-      <el-button @click="searchInputWithPageAndCity" type="primary"
-        >查询</el-button
-      >
+      <el-button @click="searchInput" type="primary">查询</el-button>
       <el-button @click="addAccount" type="primary">添加</el-button>
     </div>
     <!--    表格区域-->
@@ -55,7 +54,7 @@
     <!--分页区域-->
     <MyPagination :currentCount="count" @changePage="changePage" />
     <!--弹窗增加BD用户-->
-    <AddAccount ref='AddAccountDialog'/>
+    <AddAccount ref="AddAccountDialog" />
   </div>
 </template>
 
@@ -73,6 +72,7 @@ export default {
   },
   data() {
     return {
+      ALLCITY: [],
       input: "",
       tableData: [],
       count: 0,
@@ -83,10 +83,11 @@ export default {
     /**
      * 增加BD账号
      */
-    addAccount(){
-      console.log("增加按钮");
+    addAccount() {
       //修改子组件实例的dialogVisible
-      this.$refs.AddAccountDialog.dialogVisible=true;
+      this.$refs.AddAccountDialog.dialogVisible = true;
+      this.$refs.AddAccountDialog.ruleForm.accountType = 2;
+      this.$refs.AddAccountDialog.city = this.ALLCITY;
     },
     /**
      * 查看BD详情
@@ -106,7 +107,6 @@ export default {
       api
         .getBdList({ page: page, size: "10", input: input, citycode: citycode })
         .then((res) => {
-          console.log(res.data);
           this.tableData = res.data.msg.data;
           this.count = res.data.msg.count;
         });
@@ -121,7 +121,7 @@ export default {
     /**
      * 条件修改进行搜索-页面强制为1
      */
-    searchInputWithPageAndCity() {
+    searchInput() {
       this.http(1, this.input, this.city_code);
     },
     /**
@@ -146,12 +146,17 @@ export default {
      */
     chooseCity(city) {
       this.city_code = city.city_code;
-      this.searchInputWithPageAndCity();
+      this.searchInput();
     },
   },
   //生命周期方法
   created() {
     this.http(1, null, null);
+    api.getProjectAllCityCode().then((res) => {
+      if (res.data.code === 1) {
+        this.ALLCITY = res.data.msg;
+      }
+    });
   },
 };
 </script>
@@ -162,6 +167,10 @@ export default {
 }
 .search {
   display: flex;
+}
+.inputType {
+  margin-right: 20px;
+  margin-left: 10px;
 }
 .wrapper {
   margin: 20px 0;

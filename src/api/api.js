@@ -2,6 +2,16 @@ import request from "@/api/request";
 //get:params  post:data
 const userApi = {
   /**
+   * 得到项目所有的城市并展示
+   * @returns {*}
+   */
+  getProjectAllCityCode: () => {
+    return request({
+      url: "/findprojectallcity",
+      method: "get",
+    });
+  },
+  /**
    * 得到可见的城市列表
    * @param params
    * @returns {*}
@@ -11,6 +21,18 @@ const userApi = {
       url: "/getallcitycode",
       method: "get",
       params: params,
+    });
+  },
+  /**
+   * 增加用户账号
+   * @param data
+   * @returns {*}
+   */
+  addAccount: (data) => {
+    return request({
+      url: "/addaccount",
+      method: "post",
+      data: data,
     });
   },
   /**

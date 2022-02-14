@@ -1,14 +1,15 @@
 <template>
-  <div class="bd">
+  <div class="Admin">
     <!--    搜索区域-->
     <div class="search">
       <el-input
+        class="inputType"
         v-model="input"
         placeholder="请输入查询的管理员手机号、名称"
-        @change="searchInputWithPage"
+        @change="searchInput"
       ></el-input>
-      <el-button onclick="searchInputWithPage" type="primary">查询</el-button>
-      <el-button type="primary">添加</el-button>
+      <el-button @click="searchInput" type="primary">查询</el-button>
+      <el-button @click="addAccount" type="primary">添加</el-button>
     </div>
     <!--    表格区域-->
     <div class="wrapper">
@@ -57,17 +58,27 @@
     </div>
     <!--分页区域-->
     <MyPagination :currentCount="count" @changePage="changePage" />
+    <!--弹窗增加管理员用户-->
+    <AddAccount ref="AddAccountDialog" />
+    <EditAccount ref="EditAccountDialog"/>
   </div>
 </template>
 
 <script>
 import api from "@/api/api";
 import MyPagination from "@/components/common/MyPagination";
+import AddAccount from "@/components/common/AddAccount";
+import EditAccount from "@/components/common/EditAccount";
 export default {
   name: "AdminList",
-  components: { MyPagination },
+  components: {
+    MyPagination,
+    AddAccount,
+    EditAccount,
+  },
   data() {
     return {
+      ALLCITY: [],
       input: "",
       tableData: [],
       count: 0,
@@ -75,12 +86,30 @@ export default {
   },
   methods: {
     /**
+     * 增加管理员账号
+     */
+    addAccount() {
+      //修改子组件实例的dialogVisible
+      this.$refs.AddAccountDialog.dialogVisible = true;
+      this.$refs.AddAccountDialog.ruleForm.accountType = 1;
+      this.$refs.AddAccountDialog.city = this.ALLCITY;
+    },
+    /**
      * 编辑管理员信息 修改城市属性
      */
-    handleClickDetailEdit() {
-      console.log("编辑按钮");
+    handleClickDetailEdit(index,row) {
+      console.log("编辑",index,row);
+      this.$refs.EditAccountDialog.dialogVisible = true;
+      this.$refs.EditAccountDialog.city = this.ALLCITY;
+      this.$refs.EditAccountDialog.ruleForm.name = row.name;
+      this.$refs.EditAccountDialog.ruleForm.phone = row.phone;
+      // this.$refs.EditAccountDialog.ruleForm.citySelected = row.phone;
     },
-    //禁用
+    /**
+     * 禁用账号
+     * @param index
+     * @param row
+     */
     handleClickDetailDisable(index, row) {
       api.updateStatus({ id: row.id, status: row.status }).then((res) => {
         if (res.data.code === 1) {
@@ -92,7 +121,11 @@ export default {
         this.http(1, null);
       });
     },
-    //删除
+    /**
+     * 删除账号
+     * @param index
+     * @param row
+     */
     handleClickDetailDelete(index, row) {
       this.$confirm("此操作将永久删除该管理员, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -118,35 +151,51 @@ export default {
           });
         });
     },
-    //封装Admin列表的获取
+    /**
+     * 封装Admin列表的获取
+     * @param page
+     * @param input
+     */
     http(page, input) {
       api.getAdminList({ page: page, size: "10", input: input }).then((res) => {
-        console.log(res.data);
         this.tableData = res.data.msg.data;
         this.count = res.data.msg.count;
       });
     },
-    //修改页码时进行分页查找
+    /**
+     * 修改页码时进行分页查找
+     * @param page
+     */
     changePage(page) {
       this.http(page, this.input);
     },
-    //输入框搜索-页面强制为1
-    searchInputWithPage() {
+    /**
+     * 输入框搜索-页面强制为1
+     */
+    searchInput() {
       this.http(1, this.input);
     },
   },
   created() {
     this.http(1, null);
+    api.getProjectAllCityCode().then((res) => {
+      if (res.data.code === 1) {
+        this.ALLCITY = res.data.msg;
+      }
+    });
   },
 };
 </script>
 
 <style xml:lang="less" scoped>
-.bd {
+.Admin {
   margin: 20px;
 }
 .search {
   display: flex;
+}
+.inputType {
+  margin-right: 20px;
 }
 .wrapper {
   margin: 20px 0;
