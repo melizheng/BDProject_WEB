@@ -3,7 +3,7 @@
     <!--    title 弹窗标题-->
     <!--    dialogVisible true 显示弹窗-->
     <!--    v-slot:footer 弹窗底部区域-->
-    <el-dialog title="添加账号" v-model="dialogVisible" width="30%">
+    <el-dialog title="添加账号" v-model="dialogVisible" width="35%">
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -25,6 +25,7 @@
               :key="item.city_code"
               :label="item.city_code"
               :value="item.city_code"
+              class="el-checkbox-width"
             >
               {{ item.city_name }}
             </el-checkbox>
@@ -118,4 +119,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.el-checkbox-width {
+  width: 80px;
+  height: 25px;
+}
+</style>

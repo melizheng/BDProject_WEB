@@ -19,7 +19,6 @@
 
 <script>
 import api from "@/api/api";
-import store from "@/store";
 
 export default {
   name: "MyDropdown",
@@ -36,7 +35,7 @@ export default {
     },
   },
   created() {
-    api.getAllCityCode({ id: store.state.user.token }).then((res) => {
+    api.getAllCityCode().then((res) => {
       this.city = res.data.msg;
     });
   },

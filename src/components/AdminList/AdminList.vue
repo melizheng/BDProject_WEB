@@ -98,12 +98,21 @@ export default {
      * 编辑管理员信息 修改城市属性
      */
     handleClickDetailEdit(index, row) {
-      console.log("编辑", index, row);
       this.$refs.EditAccountDialog.dialogVisible = true;
       this.$refs.EditAccountDialog.city = this.ALLCITY;
+      this.$refs.EditAccountDialog.ruleForm.id = row.id;
       this.$refs.EditAccountDialog.ruleForm.name = row.name;
       this.$refs.EditAccountDialog.ruleForm.phone = row.phone;
-      // this.$refs.EditAccountDialog.ruleForm.citySelected = row.phone;
+      api.getAccountAllCityCode({ id: row.id }).then((res) => {
+        if (res.data.code === 1) {
+          var i;
+          var city_codes = [];
+          for (i = 0; i < res.data.msg.length; i++) {
+            city_codes[i] = res.data.msg[i].city_code;
+          }
+          this.$refs.EditAccountDialog.ruleForm.citySelected = city_codes;
+        }
+      });
     },
     /**
      * 禁用账号

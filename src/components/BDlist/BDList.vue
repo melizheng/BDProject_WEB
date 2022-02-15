@@ -47,6 +47,12 @@
               size="small"
               >详情</el-button
             >
+            <el-button
+              @click="handleClickDetailDelete(scope.$index, scope.row)"
+              type="text"
+              size="small"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -88,6 +94,36 @@ export default {
       this.$refs.AddAccountDialog.dialogVisible = true;
       this.$refs.AddAccountDialog.ruleForm.accountType = 2;
       this.$refs.AddAccountDialog.city = this.ALLCITY;
+    },
+    /**
+     * 删除账号
+     * @param index
+     * @param row
+     */
+    handleClickDetailDelete(index, row) {
+      this.$confirm("此操作将永久删除该BD, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          //请求删除接口——
+          api.deleteAccount({ id: row.id }).then((res) => {
+            if (res.data.code === 1) {
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
+              this.http(1, null);
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
     /**
      * 查看BD详情

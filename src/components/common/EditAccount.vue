@@ -3,7 +3,8 @@
     <!--    title 弹窗标题-->
     <!--    dialogVisible true 显示弹窗-->
     <!--    v-slot:footer 弹窗底部区域-->
-    <el-dialog title="编辑账号" v-model="dialogVisible" width="30%">
+    <!--    el-checkbox组件默认获取的都是label属性中的值-->
+    <el-dialog title="编辑账号" v-model="dialogVisible" width="35%">
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -24,7 +25,8 @@
               v-for="item in city"
               :key="item.city_code"
               :label="item.city_code"
-              :value="item.city_code"
+              true-label
+              class="el-checkbox-width"
             >
               {{ item.city_name }}
             </el-checkbox>
@@ -58,16 +60,11 @@ export default {
         name: "",
         phone: "",
         citySelected: [],
-        accountType: "",
       },
       rules: {
         name: [
           { required: true, message: "请输入姓名", trigger: "blur" },
           { min: 3, max: 20, message: "请输入至少3~20个字符", trigger: "blur" },
-        ],
-        phone: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
-          { min: 11, max: 11, message: "请输入正确的手机号", trigger: "blur" },
         ],
         citySelected: [
           {
@@ -82,29 +79,26 @@ export default {
   },
   methods: {
     /**
-     * 提交表单请求接口
+     * 提交表单请求编辑接口
      */
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           api
-            .addAccount({
+            .updateAccountMessage({
+              id: this.ruleForm.id,
               name: this.ruleForm.name,
-              phone: this.ruleForm.phone,
               city_code: this.ruleForm.citySelected,
-              account_type: this.ruleForm.accountType,
             })
             .then((res) => {
               if (res.data.code === 1) {
                 this.$message({
                   type: "success",
-                  message: "增加账号成功!",
+                  message: "修改账号信息成功!",
                 });
                 this.closeDialog();
                 //刷新表格内容
                 this.$parent.searchInput();
-                //重置表单
-                this.$refs[formName].resetFields();
               }
             });
         } else {
@@ -119,4 +113,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.el-checkbox-width {
+  width: 80px;
+  height: 25px;
+}
+</style>

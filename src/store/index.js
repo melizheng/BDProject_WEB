@@ -11,6 +11,10 @@ export default createStore({
         window.localStorage.getItem("user") == null
           ? ""
           : JSON.parse(window.localStorage.getItem("user")).token,
+      name:
+        window.localStorage.getItem("user") == null
+          ? ""
+          : JSON.parse(window.localStorage.getItem("user")).name,
     },
   },
   mutations: {
