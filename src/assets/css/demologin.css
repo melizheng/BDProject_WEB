@@ -1,26 +1,57 @@
 #poster {
-    background:url("../background/bac.jpg") no-repeat;
+    /*背景图片*/
+    background:url("../background/loginbackground.png") no-repeat;
     background-position: center;
     height: 100%;
     width: 100%;
     background-size: cover;
     position: fixed;
 }
-body{
-    margin: 0px;
-}
 .login-container {
-    border-radius: 15px;
-    background-clip: padding-box;
-    margin: 280px auto;
-    width: 350px;
-    padding: 15px 70px 15px 35px;
-    background: #fff;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 0 25px #cac6c6;
+    /*border-radius: 15px;*/
+    /*background-clip: padding-box;*/
+    /*margin: 280px auto;*/
+    /*width: 350px;*/
+    /*padding: 15px 70px 15px 35px;*/
+    /*background: #fff;*/
+    /*border: 1px solid #eaeaea;*/
+    /*box-shadow: 0 0 25px #cac6c6;*/
+    width: 400px;
+    height: 500px;
+    background: #ffffff;
+    border: 1px solid rgba(20,31,51,0.05);
+    border-radius: 4px;
+    box-shadow: 0px 10px 20px -5px rgba(0,0,0,0.06);
+    position: fixed;
+    top:120px;
+    right: 240px;
+    padding: 20px;
+}
+.login_title {
+    color: #141f33;
+    padding-top: 50px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+.mima_titile{
+    color: cornflowerblue;
+    text-align: center;
+    padding-left: 50px;
+    padding-right:  50px;
+}
+.phone{
+    width: 300px;
+    height: 40px;
+}
+.password{
+    width: 300px;
+    height: 40px;
+}
+.loginbutton{
+    width: 300px;
+    height: 40px;
+    border: 1px solid cornflowerblue;
+    color: white;
+    background: cornflowerblue;
 }
 
-.login_title {
-    text-align: center;
-    color: #505458;
-}

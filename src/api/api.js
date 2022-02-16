@@ -96,7 +96,7 @@ const userApi = {
     });
   },
   /**
-   * 得到BD的列表
+   * 得到1个bd的详细信息
    * @param params
    * @returns {*}
    */
@@ -127,6 +127,30 @@ const userApi = {
   getCustomList: (params) => {
     return request({
       url: "/getcustom",
+      method: "get",
+      params: params,
+    });
+  },
+  /**
+   * 得到可見的審核列表
+   * @param params
+   * @returns {*}
+   */
+  findAuditList: (params) => {
+    return request({
+      url: "/findauditlist",
+      method: "get",
+      params: params,
+    });
+  },
+  /**
+   * 得到可見的審核列表
+   * @param params
+   * @returns {*}
+   */
+  updateAudit: (params) => {
+    return request({
+      url: "/updateaudit",
       method: "get",
       params: params,
     });

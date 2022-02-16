@@ -1,6 +1,6 @@
 <template>
   <div class="el-menu">
-    <h2 class="logo">管理系统</h2>
+    <h2 class="logo"><i class="iconfont icon-guanli" style="margin-right: 6px;margin-top: 8px"/>BD管理系统</h2>
     <el-menu
       :router="true"
       :default-active="$route.path"
@@ -45,6 +45,7 @@ export default {
 <style xml:lang="less" scoped>
 .el-menu {
   width: 200px;
+  background: #141f33;
 }
 .el-menu-item.is-active {
   background: #1e71bf !important;
@@ -52,6 +53,6 @@ export default {
 .logo {
   color: #fff;
   margin: 20px;
-  size: 20px;
+  display: flex;
 }
 </style>

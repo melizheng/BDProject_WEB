@@ -3,26 +3,19 @@
   <div class="right">
     <!--  顶部区域-->
     <div class="header">
-      <div class="myName">管理员：{{ name }}</div>
-      <div class="changepassword">
-        <el-button type="text" size="default" style="color: white"
-          ><i
-            class="iconfont icon-change"
-            style="margin: 5px"
-          />修改密码</el-button
-        >
-      </div>
-      <div class="goout">
-        <el-button
-          type="text"
-          size="default"
-          style="color: white"
-          @click="goout"
-          ><i
-            class="iconfont icon-tuichu"
-            style="margin: 5px"
-          />退出登录</el-button
-        >
+      <div class="my">
+        <el-dropdown @command="handleCommand">
+          <span class="el-dropdown-link">
+            <i class="iconfont icon-touxiang"></i>
+            {{ name }} <i class="iconfont icon-xiala" />
+          </span>
+          <template v-slot:dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="a">修改密码</el-dropdown-item>
+              <el-dropdown-item command="b">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
     </div>
     <!--  内容区域-->
@@ -39,6 +32,11 @@ export default {
   //在div被引用的时候必须是<v-menu></v-menu>  命名很重要不能有问题 否则导致引用失败 无语了
   name: "v-right-menu",
   methods: {
+    handleCommand(command) {
+      if (command === "a") {
+        this.$message("修改密码");
+      } else this.goout();
+    },
     goout() {
       this.$confirm("确定退出登录?", "提示", {
         confirmButtonText: "确定",
@@ -68,18 +66,20 @@ export default {
 }
 .header {
   height: 50px;
-  line-height: 50px;
-  color: #ffffff;
-  background: #1e78bf;
-  /*使得header的子组件在一行*/
-  display: flex;
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.05),
+    0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
-.changepassword {
-  position: fixed;
-  right: 110px;
+.my {
+  position: absolute;
+  right: 13px;
+  top: 20px;
+  cursor: pointer;
+  color: #409eff;
 }
-.goout {
-  position: fixed;
-  right: 10px;
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409eff;
 }
 </style>

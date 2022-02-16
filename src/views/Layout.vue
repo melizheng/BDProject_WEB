@@ -24,7 +24,7 @@ export default {
 .left-menu {
   width: 200px;
   min-height: 500px;
-  background-color: #1b3554;
+  background-color: #141f33;
   position: fixed;
   top: 0;
   bottom: 0;

@@ -1,61 +1,81 @@
 <template>
   <div class="Visit">
-    <!--    搜索与添加区域-->
-    <div class="search">
-      <my-date-picker @changeTime="changeTime" />
-      <my-visits-status-dropdown
-        style="width: 160px"
-        @chooseStatus="chooseStatus"
-        class="el-button-status"
-      ></my-visits-status-dropdown>
-      <el-input
-        class="inputType"
-        v-model="input"
-        placeholder="请输入查询拜访的BD姓名、手机号、公司的名称"
-        @change="searchInput"
-      ></el-input>
-      <el-button @click="searchInput" type="primary">查询</el-button>
+    <!--    面包屑导航部分-->
+    <div class="title">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>首页</el-breadcrumb-item>
+        <el-breadcrumb-item>拜访记录</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
-    <!--    表格区域-->
-    <div class="wrapper">
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="user_name" label="拜访BD" min-width="10%">
-        </el-table-column>
-        <el-table-column prop="company_name" label="拜访对象" min-width="10%">
-        </el-table-column>
-        <el-table-column prop="remark" label="拜访记录" min-width="60%">
-        </el-table-column>
-        <el-table-column
-          prop="create_time"
-          label="拜访时间"
-          min-width="11%"
-          :formatter="createtimeFormat"
+    <!--    总内容导航部分-->
+    <div class="content">
+      <span>客户列表</span>
+      <el-divider></el-divider>
+      <!--    搜索与添加区域-->
+      <div class="search">
+        <my-date-picker @changeTime="changeTime" />
+        <my-visits-status-dropdown
+          style="width: 160px"
+          @chooseStatus="chooseStatus"
+          class="el-button-status"
+        ></my-visits-status-dropdown>
+        <el-input
+          class="inputType"
+          v-model="input"
+          placeholder="请输入查询拜访的BD姓名、手机号、公司的名称"
+          @change="searchInput"
+        ></el-input>
+        <el-button
+          @click="searchInput"
+          style="color: cornflowerblue; border: 1px solid cornflowerblue"
+          >查询</el-button
         >
-        </el-table-column>
-        <el-table-column prop="status" label="打卡状态" min-width="10%">
-          <template v-slot="scope">
-            <span v-if="scope.row.status === 2" style="color: lightgreen"
-              ><i class="iconfont icon-status" />正常</span
-            >
-            <span v-else style="color: red"
-              ><i class="iconfont icon-status" />异常</span
-            >
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" min-width="5%">
-          <template v-slot="scope">
-            <el-button
-              @click="handleClickDetail(scope.$index, scope.row)"
-              type="text"
-              size="small"
-              >详情</el-button
-            >
-          </template>
-        </el-table-column>
-      </el-table>
+      </div>
+      <!--    表格区域-->
+      <div class="wrapper">
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          :header-cell-style="{ background: '#FAFAFA' }"
+        >
+          <el-table-column prop="user_name" label="拜访BD" min-width="10%">
+          </el-table-column>
+          <el-table-column prop="company_name" label="拜访对象" min-width="10%">
+          </el-table-column>
+          <el-table-column prop="remark" label="拜访记录" min-width="60%">
+          </el-table-column>
+          <el-table-column
+            prop="create_time"
+            label="拜访时间"
+            min-width="11%"
+            :formatter="createtimeFormat"
+          >
+          </el-table-column>
+          <el-table-column prop="status" label="打卡状态" min-width="10%">
+            <template v-slot="scope">
+              <span v-if="scope.row.status === 2"
+                ><i class="iconfont icon-status"  style="color: lightgreen;margin-right: 5px"/>正常</span
+              >
+              <span v-else
+                ><i class="iconfont icon-status" style="color: red;margin-right: 5px"/>异常</span
+              >
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" min-width="5%">
+            <template v-slot="scope">
+              <el-button
+                @click="handleClickDetail(scope.$index, scope.row)"
+                type="text"
+                size="small"
+                >详情</el-button
+              >
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <!--分页区域-->
+      <MyPagination :currentCount="count" @changePage="changePage" />
     </div>
-    <!--分页区域-->
-    <MyPagination :currentCount="count" @changePage="changePage" />
   </div>
 </template>
 
@@ -169,6 +189,16 @@ export default {
 .Visit {
   margin: 20px;
 }
+.title {
+  margin-bottom: 15px;
+}
+.content {
+  padding: 20px;
+  background: white;
+  border: 1px solid #e7eaed;
+  border-radius: 4px;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.04);
+}
 .search {
   display: flex;
 }
@@ -178,6 +208,7 @@ export default {
 }
 .wrapper {
   margin: 20px 0;
+  border: 1px solid #eeeeee;
 }
 .el-button-status {
   margin-left: 10px;

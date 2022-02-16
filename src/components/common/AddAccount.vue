@@ -116,6 +116,13 @@ export default {
       this.dialogVisible = false;
     },
   },
+  created() {
+    api.getProjectAllCityCode().then((res) => {
+      if (res.data.code === 1) {
+        this.city = res.data.msg;
+      }
+    });
+  },
 };
 </script>
 

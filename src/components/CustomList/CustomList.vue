@@ -1,46 +1,71 @@
 <template>
   <div class="Custom">
-    <!--    搜索与添加区域-->
-    <div class="search">
-      <MyDropdown style="width: 120px" @chooseCity="chooseCity" />
-      <my-custom-status-dropdown
-        style="width: 120px"
-        @chooseStatus="chooseStatus"
-        class="el-button-status"
-      ></my-custom-status-dropdown>
-      <el-input
-        class="inputType"
-        v-model="input"
-        placeholder="请输入查询的公司名称、对接BD姓名、手机号"
-        @change="searchInput"
-      ></el-input>
-      <el-button @click="searchInput" type="primary">查询</el-button>
+    <!--    面包屑导航部分-->
+    <div class="title">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>首页</el-breadcrumb-item>
+        <el-breadcrumb-item>客户列表</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
-    <!--    表格区域-->
-    <div class="wrapper">
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="company_name" label="公司名称" min-width="10%">
-        </el-table-column>
-        <el-table-column prop="address" label="公司地址" min-width="40%">
-        </el-table-column>
-        <el-table-column prop="status" label="合作状态" min-width="10%">
-        </el-table-column>
-        <el-table-column prop="name" label="对接BD" min-width="10%">
-        </el-table-column>
-        <el-table-column label="操作" min-width="10%">
-          <template v-slot="scope">
-            <el-button
-              @click="handleClickDetail(scope.$index, scope.row)"
-              type="text"
-              size="small"
-              >详情</el-button
-            >
-          </template>
-        </el-table-column>
-      </el-table>
+    <!--    总内容导航部分-->
+    <div class="content">
+      <span>客户列表</span>
+      <el-divider></el-divider>
+      <!--    搜索与添加区域-->
+      <div class="search">
+        <MyDropdown style="width: 120px" @chooseCity="chooseCity" />
+        <my-custom-status-dropdown
+          style="width: 120px"
+          @chooseStatus="chooseStatus"
+          class="el-button-status"
+        ></my-custom-status-dropdown>
+        <el-input
+          class="inputType"
+          v-model="input"
+          placeholder="请输入查询的公司名称、对接BD姓名、手机号"
+          @change="searchInput"
+        ></el-input>
+        <el-button
+          @click="searchInput"
+          style="color: cornflowerblue; border: 1px solid cornflowerblue"
+          >查询</el-button
+        >
+      </div>
+      <!--    表格区域-->
+      <div class="wrapper">
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          :header-cell-style="{ background: '#FAFAFA' }"
+        >
+          <el-table-column prop="company_name" label="公司名称" min-width="10%">
+          </el-table-column>
+          <el-table-column prop="address" label="公司地址" min-width="40%">
+          </el-table-column>
+          <el-table-column prop="status" label="合作状态" min-width="10%">
+            <template v-slot="scope">
+              <span v-if="scope.row.status === 1">已合作</span>
+              <span v-else-if="scope.row.status === 2">未合作</span>
+              <span v-else style="color: cadetblue">审核中</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="对接BD" min-width="10%">
+          </el-table-column>
+          <el-table-column label="操作" min-width="10%">
+            <template v-slot="scope">
+              <el-button
+                @click="handleClickDetail(scope.$index, scope.row)"
+                type="text"
+                size="small"
+                >详情</el-button
+              >
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <!--分页区域-->
+      <MyPagination :currentCount="count" @changePage="changePage" />
     </div>
-    <!--分页区域-->
-    <MyPagination :currentCount="count" @changePage="changePage" />
   </div>
 </template>
 
@@ -72,7 +97,7 @@ export default {
      * @param row
      */
     handleClickDetail(index, row) {
-      console.log("查看按钮", index, row);
+      this.$router.push({ path: "/custommessage", query: { id: row.id } });
     },
     /**
      * 封装客户列表的获取
@@ -135,6 +160,16 @@ export default {
 .Custom {
   margin: 20px;
 }
+.title {
+  margin-bottom: 15px;
+}
+.content {
+  padding: 20px;
+  background: white;
+  border: 1px solid #e7eaed;
+  border-radius: 4px;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.04);
+}
 .search {
   display: flex;
 }
@@ -144,6 +179,7 @@ export default {
 }
 .wrapper {
   margin: 20px 0;
+  border: 1px solid #eeeeee;
 }
 .el-button-status {
   margin-left: 10px;

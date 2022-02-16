@@ -63,8 +63,26 @@ const routes = [
           requireAuth: true,
         },
       },
+      {
+        path: "/bdmessage",
+        name: "BDMessage",
+        component: () => import("../components/BDlist/BDMessage/BDMessage"),
+        meta: {
+          requireAuth: true,
+        },
+      },
+      {
+        path: "/custommessage",
+        name: "CustomMessage",
+        component: () =>
+          import("../components/CustomList/CustomMessage/CustomMessage"),
+        meta: {
+          requireAuth: true,
+        },
+      },
     ],
   },
+
   {
     path: "/login",
     name: "Login",
