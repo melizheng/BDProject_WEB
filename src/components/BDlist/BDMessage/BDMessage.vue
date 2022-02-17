@@ -177,6 +177,7 @@
             :currentCount="countCustom"
             :pageSize="pageSize"
             @changePage="changePage"
+            :currentPage="pageCustomNow"
           />
         </span>
         <!--    拜访记录表格区域-->
@@ -256,6 +257,7 @@
             :currentCount="countVisit"
             :pageSize="pageSize"
             @changePage="changePage"
+            :currentPage="pageVisitNow"
           />
         </span>
       </div>
@@ -304,7 +306,9 @@ export default {
       },
       tableCustomData: [],
       tableVisitsData: [],
-      pageSize: 5,
+      pageSize: 1,
+      pageCustomNow:1,
+      pageVisitNow:1,
       countCustom: 0,
       countVisit: 0,
       input: "",
@@ -387,35 +391,43 @@ export default {
      * @param page
      */
     changePage(page) {
-      if (this.tableChoose === "客户列表")
+      if (this.tableChoose === "客户列表"){
+        this.pageCustomNow=page;
         this.httpCustom(
-          page,
+          this.pageCustomNow,
           this.$route.query.id,
           this.input,
           this.companyStatus
         );
-      else
+      }
+      else{
+        this.pageVisitNow=page;
         this.httpVisits(
-          page,
+          this.pageVisitNow,
           this.$route.query.id,
           this.input,
           this.visitsstatus,
           this.startTime,
           this.endTime
         );
+      }
+
     },
     /**
      * 条件修改进行搜索-页面强制为1
      */
     searchInput() {
-      if (this.tableChoose === "客户列表")
+      if (this.tableChoose === "客户列表"){
+        this.pageCustomNow=1;
         this.httpCustom(
           1,
           this.$route.query.id,
           this.input,
           this.companyStatus
         );
-      else
+      }
+      else{
+        this.pageVisitNow=1;
         this.httpVisits(
           1,
           this.$route.query.id,
@@ -424,6 +436,7 @@ export default {
           this.startTime,
           this.endTime
         );
+      }
     },
     /**
      * 修改了状态

@@ -72,7 +72,7 @@
         </el-table>
       </div>
       <!--分页区域-->
-      <MyPagination :currentCount="count" @changePage="changePage" />
+      <MyPagination :currentCount="count" @changePage="changePage" :pageSize="pageSize" :currentPage="pageNow"/>
       <!--弹窗增加BD用户-->
       <AddAccount ref="AddAccountDialog" />
     </div>
@@ -99,14 +99,15 @@ export default {
       count: 0,
       city_code: null,
       pageNow: 1,
+      pageSize:8,
     };
   },
   methods: {
     /**
-     * 更新信息
+     * 更新表格
      */
     roload() {
-      this.searchInput();
+      this.http(this.pageNow,this.input, this.city_code);
     },
     /**
      * 增加BD账号
@@ -135,7 +136,7 @@ export default {
                 type: "success",
                 message: "删除成功!",
               });
-              this.http(this.pageNow, null);
+              this.roload();
             }
           });
         })
@@ -162,7 +163,7 @@ export default {
      */
     http(page, input, citycode) {
       api
-        .getBdList({ page: page, size: "10", input: input, citycode: citycode })
+        .getBdList({ page: page, size: this.pageSize, input: input, citycode: citycode })
         .then((res) => {
           this.tableData = res.data.msg.data;
           this.count = res.data.msg.count;
@@ -180,7 +181,8 @@ export default {
      * 条件修改进行搜索-页面强制为1
      */
     searchInput() {
-      this.http(1, this.input, this.city_code);
+      this.pageNow = 1;
+      this.http(this.pageNow, this.input, this.city_code);
     },
     /**
      * 禁用账号操作
@@ -195,7 +197,7 @@ export default {
             message: "修改状态成功!",
           });
         }
-        this.http(this.pageNow, null);
+        this.roload();
       });
     },
     /**

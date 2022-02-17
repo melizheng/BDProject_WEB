@@ -17,7 +17,7 @@
         <el-input
           class="inputType"
           v-model="input"
-          placeholder="请输入查询汇报的BD姓名、手机号"
+          placeholder="请输入查询汇报的BD姓名、汇报规则名"
           @change="searchInput"
         ></el-input>
         <el-button @click="searchInput" class="myButton">查询</el-button>
@@ -35,7 +35,7 @@
           </el-table-column>
           <el-table-column prop="work_summary" label="汇报内容" min-width="40%">
           </el-table-column>
-          <el-table-column prop="visit_total" label="打卡总数" min-width="10%">
+          <el-table-column prop="visit_total" label="打卡总数" min-width="4%">
           </el-table-column>
           <el-table-column
             prop="submittime"
@@ -98,7 +98,7 @@
         </el-table>
       </div>
       <!--分页区域-->
-      <MyPagination :currentCount="count" @changePage="changePage" />
+      <MyPagination :currentCount="count" @changePage="changePage" :pageSize="pageSize" :currentPage="pageNow"/>
     </div>
   </div>
 </template>
@@ -116,6 +116,8 @@ export default {
   },
   data() {
     return {
+      pageNow: 1,
+      pageSize:8,
       input: "",
       tableData: [],
       count: 0,
@@ -164,7 +166,7 @@ export default {
       api
         .getReportRecordList({
           page: page,
-          size: "10",
+          size: this.pageSize,
           input: input,
           atime: starttime,
           btime: endtime,
@@ -179,12 +181,14 @@ export default {
      * @param page
      */
     changePage(page) {
-      this.http(page, this.input, this.startTime, this.endTime);
+      this.pageNow=page;
+      this.http(this.pageNow, this.input, this.startTime, this.endTime);
     },
     /**
      * 条件修改进行搜索-页面强制为1
      */
     searchInput() {
+      this.pageNow=1;
       this.http(1, this.input, this.startTime, this.endTime);
     },
     /**

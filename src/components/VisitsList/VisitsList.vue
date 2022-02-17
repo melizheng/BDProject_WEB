@@ -76,7 +76,7 @@
         </el-table>
       </div>
       <!--分页区域-->
-      <MyPagination :currentCount="count" @changePage="changePage" />
+      <MyPagination :currentCount="count" @changePage="changePage" :pageSize="pageSize" :currentPage="pageNow" />
     </div>
   </div>
 </template>
@@ -96,6 +96,8 @@ export default {
   },
   data() {
     return {
+      pageNow: 1,
+      pageSize:8,
       input: "",
       tableData: [],
       count: 0,
@@ -127,7 +129,7 @@ export default {
       api
         .getVisitList({
           page: page,
-          size: "10",
+          size: this.pageSize,
           input: input,
           status: visitsstatus,
           atime: starttime,
@@ -143,8 +145,9 @@ export default {
      * @param page
      */
     changePage(page) {
+      this.pageNow=page;
       this.http(
-        page,
+        this.pageNow,
         this.input,
         this.visitsStatus,
         this.startTime,
@@ -155,6 +158,7 @@ export default {
      * 条件修改进行搜索-页面强制为1
      */
     searchInput() {
+      this.pageNow=1;
       this.http(1, this.input, this.visitsStatus, this.startTime, this.endTime);
     },
     /**

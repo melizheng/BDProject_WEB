@@ -66,7 +66,7 @@
         </el-table>
       </div>
       <!--分页区域-->
-      <MyPagination :currentCount="count" @changePage="changePage" />
+      <MyPagination :currentCount="count" @changePage="changePage" :pageSize="pageSize" :currentPage="pageNow"/>
     </div>
   </div>
 </template>
@@ -86,6 +86,7 @@ export default {
       count: 0,
       changestatus: 0,
       pageNow: 1,
+      pageSize:4,
     };
   },
   methods: {
@@ -125,7 +126,7 @@ export default {
             type: "success",
             message: "审核成功!",
           });
-          this.http(this.pageNow);
+          this.http(this.pageNow,this.input);
         });
     },
     /**
@@ -138,7 +139,7 @@ export default {
       api
         .findAuditList({
           page: page,
-          size: "10",
+          size: this.pageSize,
           input: input,
         })
         .then((res) => {
@@ -158,6 +159,7 @@ export default {
      * 条件修改进行搜索-页面强制为1
      */
     searchInput() {
+      this.pageNow =1;
       this.http(1, this.input);
     },
   },

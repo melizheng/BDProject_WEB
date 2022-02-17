@@ -5,6 +5,7 @@
       layout="total,prev, pager,next,jumper"
       :total="currentCount"
       :page-size="pageSize"
+      :current-page="currentPage"
       @current-change="changePage"
     >
     </el-pagination>
@@ -23,6 +24,10 @@ export default {
       type: Number,
       default: 10,
     },
+    currentPage:{
+      type: Number,
+      default: 1,
+    }
   },
   methods: {
     changePage(page) {

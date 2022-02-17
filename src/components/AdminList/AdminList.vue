@@ -72,7 +72,7 @@
         </el-table>
       </div>
       <!--分页区域-->
-      <MyPagination :currentCount="count" @changePage="changePage" />
+      <MyPagination :currentCount="count" @changePage="changePage" :pageSize="pageSize" :currentPage="pageNow"/>
       <!--弹窗增加管理员用户-->
       <AddAccount ref="AddAccountDialog" />
       <!--弹窗编辑管理员用户-->
@@ -99,6 +99,8 @@ export default {
       input: "",
       tableData: [],
       count: 0,
+      pageNow: 1,
+      pageSize:8,
     };
   },
   methods: {
@@ -106,7 +108,7 @@ export default {
      * 更新信息
      */
     roload() {
-      this.searchInput();
+      this.http(this.pageNow, this.input);
     },
     /**
      * 增加管理员账号
@@ -148,7 +150,7 @@ export default {
             message: "修改状态成功!",
           });
         }
-        this.http(1, null);
+        this.roload();
       });
     },
     /**
@@ -170,7 +172,7 @@ export default {
                 type: "success",
                 message: "删除成功!",
               });
-              this.http(1, null);
+              this.roload();
             }
           });
         })
@@ -187,7 +189,7 @@ export default {
      * @param input
      */
     http(page, input) {
-      api.getAdminList({ page: page, size: "10", input: input }).then((res) => {
+      api.getAdminList({ page: page, size: this.pageSize, input: input }).then((res) => {
         if (res.data.code === 1) {
           this.tableData = res.data.msg.data;
           this.count = res.data.msg.count;
@@ -199,13 +201,15 @@ export default {
      * @param page
      */
     changePage(page) {
-      this.http(page, this.input);
+      this.pageNow=page;
+      this.http(this.pageNow, this.input);
     },
     /**
      * 输入框搜索-页面强制为1
      */
     searchInput() {
-      this.http(1, this.input);
+      this.pageNow=1;
+      this.http(this.pageNow, this.input);
     },
   },
   created() {
