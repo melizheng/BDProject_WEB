@@ -9,7 +9,7 @@
     </div>
     <!--    总内容导航部分-->
     <div class="content">
-      <span>客户列表</span>
+      <span>合作审批</span>
       <el-divider></el-divider>
       <!--    搜索与添加区域-->
       <div class="search">
@@ -19,11 +19,7 @@
           placeholder="请输入查询的公司名称、BD姓名、手机号"
           @change="searchInput"
         ></el-input>
-        <el-button
-          @click="searchInput"
-          style="color: cornflowerblue; border: 1px solid cornflowerblue"
-          >查询</el-button
-        >
+        <el-button class="myButton" @click="searchInput">查询</el-button>
       </div>
       <!--    表格区域-->
       <div class="wrapper">
@@ -39,10 +35,16 @@
           <el-table-column label="操作" min-width="20%" align="center">
             <template v-slot="scope">
               <span v-if="scope.row.status === 1"
-                ><i class="iconfont icon-status"  style="color: lightgreen;margin-right: 5px"/>已通过</span
+                ><i
+                  class="iconfont icon-status"
+                  style="color: lightgreen; margin-right: 5px"
+                />已通过</span
               >
               <span v-else-if="scope.row.status === 2"
-                ><i class="iconfont icon-status"  style="color: red;margin-right: 5px"/>已驳回</span
+                ><i
+                  class="iconfont icon-status"
+                  style="color: red; margin-right: 5px"
+                />已驳回</span
               >
               <span v-else
                 ><el-button

@@ -9,7 +9,7 @@
     </div>
     <!--    总内容导航部分-->
     <div class="content">
-      <span>客户列表</span>
+      <span>拜访记录</span>
       <el-divider></el-divider>
       <!--    搜索与添加区域-->
       <div class="search">
@@ -25,11 +25,7 @@
           placeholder="请输入查询拜访的BD姓名、手机号、公司的名称"
           @change="searchInput"
         ></el-input>
-        <el-button
-          @click="searchInput"
-          style="color: cornflowerblue; border: 1px solid cornflowerblue"
-          >查询</el-button
-        >
+        <el-button class="myButton" @click="searchInput">查询</el-button>
       </div>
       <!--    表格区域-->
       <div class="wrapper">
@@ -54,10 +50,16 @@
           <el-table-column prop="status" label="打卡状态" min-width="10%">
             <template v-slot="scope">
               <span v-if="scope.row.status === 2"
-                ><i class="iconfont icon-status"  style="color: lightgreen;margin-right: 5px"/>正常</span
+                ><i
+                  class="iconfont icon-status"
+                  style="color: lightgreen; margin-right: 5px"
+                />正常</span
               >
               <span v-else
-                ><i class="iconfont icon-status" style="color: red;margin-right: 5px"/>异常</span
+                ><i
+                  class="iconfont icon-status"
+                  style="color: red; margin-right: 5px"
+                />异常</span
               >
             </template>
           </el-table-column>

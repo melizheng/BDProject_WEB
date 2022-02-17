@@ -97,8 +97,8 @@ export default {
                   message: "修改账号信息成功!",
                 });
                 this.closeDialog();
-                //刷新表格内容
-                this.$parent.searchInput();
+                //刷新父组件内容
+                this.$parent.roload();
               }
             });
         } else {

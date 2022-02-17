@@ -2,9 +2,9 @@
   <div class="getPage" style="text-align: center; margin: 20px">
     <el-pagination
       background
-      layout="total,prev, pager, next,jumper"
+      layout="total,prev, pager,next,jumper"
       :total="currentCount"
-      :page-size="10"
+      :page-size="pageSize"
       @current-change="changePage"
     >
     </el-pagination>
@@ -18,6 +18,10 @@ export default {
     currentCount: {
       type: Number,
       default: 0,
+    },
+    pageSize: {
+      type: Number,
+      default: 10,
     },
   },
   methods: {

@@ -19,16 +19,8 @@
           placeholder="请输入查询的管理员手机号、名称"
           @change="searchInput"
         ></el-input>
-        <el-button
-          @click="searchInput"
-          style="color: cornflowerblue; border: 1px solid cornflowerblue"
-          >查询</el-button
-        >
-        <el-button
-          @click="addAccount"
-          style="color: cornflowerblue; border: 1px solid cornflowerblue"
-          >添加</el-button
-        >
+        <el-button class="myButton" @click="searchInput">查询</el-button>
+        <el-button @click="addAccount" class="myButton">添加</el-button>
       </div>
       <!--    表格区域-->
       <div class="wrapper">
@@ -83,6 +75,7 @@
       <MyPagination :currentCount="count" @changePage="changePage" />
       <!--弹窗增加管理员用户-->
       <AddAccount ref="AddAccountDialog" />
+      <!--弹窗编辑管理员用户-->
       <EditAccount ref="EditAccountDialog" />
     </div>
   </div>
@@ -109,6 +102,12 @@ export default {
     };
   },
   methods: {
+    /**
+     * 更新信息
+     */
+    roload() {
+      this.searchInput();
+    },
     /**
      * 增加管理员账号
      */
@@ -189,8 +188,10 @@ export default {
      */
     http(page, input) {
       api.getAdminList({ page: page, size: "10", input: input }).then((res) => {
-        this.tableData = res.data.msg.data;
-        this.count = res.data.msg.count;
+        if (res.data.code === 1) {
+          this.tableData = res.data.msg.data;
+          this.count = res.data.msg.count;
+        }
       });
     },
     /**

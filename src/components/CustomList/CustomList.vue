@@ -13,9 +13,9 @@
       <el-divider></el-divider>
       <!--    搜索与添加区域-->
       <div class="search">
-        <MyDropdown style="width: 120px" @chooseCity="chooseCity" />
+        <MyDropdown style="width: 130px" @chooseCity="chooseCity" />
         <my-custom-status-dropdown
-          style="width: 120px"
+          style="width: 130px"
           @chooseStatus="chooseStatus"
           class="el-button-status"
         ></my-custom-status-dropdown>
@@ -25,11 +25,7 @@
           placeholder="请输入查询的公司名称、对接BD姓名、手机号"
           @change="searchInput"
         ></el-input>
-        <el-button
-          @click="searchInput"
-          style="color: cornflowerblue; border: 1px solid cornflowerblue"
-          >查询</el-button
-        >
+        <el-button @click="searchInput" class="myButton">查询</el-button>
       </div>
       <!--    表格区域-->
       <div class="wrapper">

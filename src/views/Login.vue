@@ -9,10 +9,10 @@
       ref="loginFormref"
     >
       <div class="login_title">
-        <img :src="backg" style="margin-bottom: 20px">
-        <h3 >BD管理系统</h3>
+        <img :src="logo" style="margin-bottom: 20px" />
+        <h3>BD管理系统</h3>
       </div>
-      <div class="mima_titile" >
+      <div class="mima_titile">
         <h4>密码登录</h4>
         <el-divider></el-divider>
       </div>
@@ -34,9 +34,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button class="loginbutton"  v-on:click="login"
-          >登录</el-button
-        >
+        <el-button class="loginbutton" v-on:click="login">登录</el-button>
       </el-form-item>
     </el-form>
   </body>
@@ -45,12 +43,12 @@
 
 <script>
 import { login } from "@/assets/js/login";
-import backg from "@/assets/logo.png"
+import logo from "@/assets/logo.png";
 export default {
   name: "Login",
   data() {
     return {
-      backg:backg,
+      logo: logo,
       loginForm: {
         phone: "",
         password: "",

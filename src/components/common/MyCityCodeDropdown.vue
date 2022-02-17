@@ -36,7 +36,9 @@ export default {
   },
   created() {
     api.getAllCityCode().then((res) => {
-      this.city = res.data.msg;
+      if (res.data.code === 1) {
+        this.city = res.data.msg;
+      }
     });
   },
 };

@@ -20,11 +20,7 @@
           placeholder="请输入查询汇报的BD姓名、手机号"
           @change="searchInput"
         ></el-input>
-        <el-button
-          @click="searchInput"
-          style="color: cornflowerblue; border: 1px solid cornflowerblue"
-          >查询</el-button
-        >
+        <el-button @click="searchInput" class="myButton">查询</el-button>
       </div>
       <!--    表格区域-->
       <div class="wrapper">

@@ -101,8 +101,8 @@ export default {
                   message: "增加账号成功!",
                 });
                 this.closeDialog();
-                //刷新表格内容
-                this.$parent.searchInput();
+                //刷新父组件内容
+                this.$parent.roload();
                 //重置表单
                 this.$refs[formName].resetFields();
               }

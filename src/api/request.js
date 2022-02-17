@@ -50,10 +50,7 @@ request.interceptors.response.use((response) => {
           });
         });
       } else {
-        ElMessageBox.confirm(response.data.msg, "提示", {
-          showCancelButton: false,
-          type: "warning",
-        });
+        return Promise.resolve(response);
       }
     }
   }

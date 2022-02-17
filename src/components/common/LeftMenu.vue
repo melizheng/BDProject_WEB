@@ -1,6 +1,11 @@
 <template>
   <div class="el-menu">
-    <h2 class="logo"><i class="iconfont icon-guanli" style="margin-right: 6px;margin-top: 8px"/>BD管理系统</h2>
+    <h2 class="logo">
+      <i
+        class="iconfont icon-guanli"
+        style="margin-right: 6px; margin-top: 8px"
+      />BD管理系统
+    </h2>
     <el-menu
       :router="true"
       :default-active="$route.path"
