@@ -24,10 +24,10 @@ export default {
       type: Number,
       default: 10,
     },
-    currentPage:{
+    currentPage: {
       type: Number,
       default: 1,
-    }
+    },
   },
   methods: {
     changePage(page) {

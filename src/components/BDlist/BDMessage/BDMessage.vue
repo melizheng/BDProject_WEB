@@ -22,17 +22,22 @@
           </div>
         </div>
         <el-divider></el-divider>
-        <div class="basic-information-content"></div>
         <div class="basic-information-content-nameAndPhone">
           <div class="basic-information-content-name">
-            姓名：{{ bdMessage.name }}
+            <div class="basic-information-content-column">姓名：</div>
+            <div class="basic-information-content-city">
+              {{ bdMessage.name }}
+            </div>
           </div>
           <div class="basic-information-content-phone">
-            手机号：{{ bdMessage.phone }}
+            <div class="basic-information-content-column">手机号：</div>
+            <div class="basic-information-content-city">
+              {{ bdMessage.phone }}
+            </div>
           </div>
         </div>
         <div class="basic-information-content-city">
-          城市权限：
+          <div class="basic-information-content-column">城市权限：</div>
           <div class="basic-information-content-city">
             <p v-for="(item, i) in bdMessage.city" :key="item.city_code">
               {{ item.city_name }}
@@ -44,7 +49,9 @@
       <!--    统计部份 公司数目，合作数目，拜访次数 汇报次数-->
       <!-- 统计部份 头 -->
       <div class="basic-efficiency">
-        <div class="basic-information-head">BD数据</div>
+        <div class="basic-information-head">
+          <div class="basic-information-head-name">BD数据</div>
+        </div>
         <el-divider></el-divider>
         <!--统计部份内容-->
         <div class="basic-efficiency-content">
@@ -104,6 +111,7 @@
       </div>
       <!--    拜访记录或者客户列表等部分-->
       <div class="basic-twoWrapper">
+        <!--        head 单选 选择一个表格-->
         <div class="basic-information-head">
           <el-radio-group v-model="tableChoose">
             <el-radio-button
@@ -210,22 +218,24 @@
               style="width: 100%"
               :header-cell-style="{ background: '#FAFAFA' }"
             >
+              <el-table-column prop="user_name" label="拜访BD" min-width="10%">
+              </el-table-column>
               <el-table-column
                 prop="company_name"
                 label="拜访对象"
                 min-width="10%"
               >
               </el-table-column>
-              <el-table-column prop="remark" label="拜访记录" min-width="60%">
+              <el-table-column prop="address" label="拜访地址" min-width="30%">
               </el-table-column>
               <el-table-column
                 prop="create_time"
                 label="拜访时间"
-                min-width="11%"
+                min-width="15%"
                 :formatter="createtimeFormat"
               >
               </el-table-column>
-              <el-table-column prop="status" label="打卡状态" min-width="10%">
+              <el-table-column prop="status" label="打卡状态" min-width="15%">
                 <template v-slot="scope">
                   <span v-if="scope.row.status === 2"
                     ><i
@@ -241,15 +251,7 @@
                   >
                 </template>
               </el-table-column>
-              <el-table-column label="操作" min-width="5%">
-                <template v-slot="scope">
-                  <el-button
-                    @click="handleClickDetail(scope.$index, scope.row)"
-                    type="text"
-                    size="small"
-                    >详情</el-button
-                  >
-                </template>
+              <el-table-column prop="remark" label="备注" min-width="10%">
               </el-table-column>
             </el-table>
           </div>
@@ -306,9 +308,9 @@ export default {
       },
       tableCustomData: [],
       tableVisitsData: [],
-      pageSize: 1,
-      pageCustomNow:1,
-      pageVisitNow:1,
+      pageSize: 5,
+      pageCustomNow: 1,
+      pageVisitNow: 1,
       countCustom: 0,
       countVisit: 0,
       input: "",
@@ -391,17 +393,16 @@ export default {
      * @param page
      */
     changePage(page) {
-      if (this.tableChoose === "客户列表"){
-        this.pageCustomNow=page;
+      if (this.tableChoose === "客户列表") {
+        this.pageCustomNow = page;
         this.httpCustom(
           this.pageCustomNow,
           this.$route.query.id,
           this.input,
           this.companyStatus
         );
-      }
-      else{
-        this.pageVisitNow=page;
+      } else {
+        this.pageVisitNow = page;
         this.httpVisits(
           this.pageVisitNow,
           this.$route.query.id,
@@ -411,23 +412,21 @@ export default {
           this.endTime
         );
       }
-
     },
     /**
      * 条件修改进行搜索-页面强制为1
      */
     searchInput() {
-      if (this.tableChoose === "客户列表"){
-        this.pageCustomNow=1;
+      if (this.tableChoose === "客户列表") {
+        this.pageCustomNow = 1;
         this.httpCustom(
           1,
           this.$route.query.id,
           this.input,
           this.companyStatus
         );
-      }
-      else{
-        this.pageVisitNow=1;
+      } else {
+        this.pageVisitNow = 1;
         this.httpVisits(
           1,
           this.$route.query.id,
@@ -509,7 +508,14 @@ export default {
   height: 10px;
   display: flex;
 }
-
+.basic-information-head-name {
+  font-size: 16px;
+  font-family: PingFangSC, PingFangSC-Medium;
+  font-weight: 550;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.8);
+  line-height: 24px;
+}
 .basic-information-head-name-edit {
   position: absolute;
   right: 30px;
@@ -519,12 +525,30 @@ export default {
   display: flex;
   margin-bottom: 20px;
 }
+.basic-information-content-name {
+  display: flex;
+}
 .basic-information-content-phone {
   position: absolute;
   left: 1000px;
+  display: flex;
 }
 .basic-information-content-city {
   display: flex;
+  font-size: 14px;
+  font-family: PingFangSC, PingFangSC-Regular;
+  font-weight: 500;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.8);
+  line-height: 30px;
+}
+.basic-information-content-column {
+  font-size: 14px;
+  font-family: PingFangSC, PingFangSC-Regular;
+  font-weight: 500;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: 30px;
 }
 .basic-efficiency {
   height: 150px;

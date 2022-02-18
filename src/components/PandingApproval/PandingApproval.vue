@@ -47,17 +47,10 @@
                 />已驳回</span
               >
               <span v-else
-                ><el-button
-                  @click="accessAudit(scope.row)"
-                  style="color: yellowgreen; border: 1px solid yellowgreen"
+                ><el-button @click="accessAudit(scope.row)" type="success"
                   >通过</el-button
                 >
-                <el-button
-                  @click="refuseAudit(scope.row)"
-                  style="
-                    color: mediumvioletred;
-                    border: 1px solid mediumvioletred;
-                  "
+                <el-button @click="refuseAudit(scope.row)" type="danger"
                   >驳回</el-button
                 ></span
               >
@@ -66,7 +59,12 @@
         </el-table>
       </div>
       <!--分页区域-->
-      <MyPagination :currentCount="count" @changePage="changePage" :pageSize="pageSize" :currentPage="pageNow"/>
+      <MyPagination
+        :currentCount="count"
+        @changePage="changePage"
+        :pageSize="pageSize"
+        :currentPage="pageNow"
+      />
     </div>
   </div>
 </template>
@@ -86,12 +84,12 @@ export default {
       count: 0,
       changestatus: 0,
       pageNow: 1,
-      pageSize:4,
+      pageSize: 4,
     };
   },
   methods: {
     accessAudit(row) {
-      this.$confirm("确认通过" + row.company_name + "的合作审核?", "提示", {
+      this.$confirm("确认通过'" + row.company_name + "'的合作审核?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -101,7 +99,7 @@ export default {
       });
     },
     refuseAudit(row) {
-      this.$confirm("确认拒绝" + row.company_name + "的合作审核?", "提示", {
+      this.$confirm("确认拒绝'" + row.company_name + "'的合作审核?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -126,7 +124,7 @@ export default {
             type: "success",
             message: "审核成功!",
           });
-          this.http(this.pageNow,this.input);
+          this.http(this.pageNow, this.input);
         });
     },
     /**
@@ -159,7 +157,7 @@ export default {
      * 条件修改进行搜索-页面强制为1
      */
     searchInput() {
-      this.pageNow =1;
+      this.pageNow = 1;
       this.http(1, this.input);
     },
   },

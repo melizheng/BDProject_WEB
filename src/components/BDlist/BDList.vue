@@ -1,5 +1,13 @@
 <template>
   <div class="bd">
+    <div class="amap-wrapper">
+<!--      <el-amap-->
+<!--        class="amap-box"-->
+<!--        vid="'amap-vue'"-->
+<!--        :zoom="zoom"-->
+<!--        :center="center"-->
+<!--      ></el-amap>-->
+    </div>
     <!--    面包屑导航部分-->
     <div class="title">
       <el-breadcrumb separator="/">
@@ -72,7 +80,12 @@
         </el-table>
       </div>
       <!--分页区域-->
-      <MyPagination :currentCount="count" @changePage="changePage" :pageSize="pageSize" :currentPage="pageNow"/>
+      <MyPagination
+        :currentCount="count"
+        @changePage="changePage"
+        :pageSize="pageSize"
+        :currentPage="pageNow"
+      />
       <!--弹窗增加BD用户-->
       <AddAccount ref="AddAccountDialog" />
     </div>
@@ -93,13 +106,15 @@ export default {
   },
   data() {
     return {
+      zoom: 11,
+      center: [112.5862, 37.8268],
       ALLCITY: [],
       input: "",
       tableData: [],
       count: 0,
       city_code: null,
       pageNow: 1,
-      pageSize:8,
+      pageSize: 8,
     };
   },
   methods: {
@@ -107,7 +122,7 @@ export default {
      * 更新表格
      */
     roload() {
-      this.http(this.pageNow,this.input, this.city_code);
+      this.http(this.pageNow, this.input, this.city_code);
     },
     /**
      * 增加BD账号
@@ -163,7 +178,12 @@ export default {
      */
     http(page, input, citycode) {
       api
-        .getBdList({ page: page, size: this.pageSize, input: input, citycode: citycode })
+        .getBdList({
+          page: page,
+          size: this.pageSize,
+          input: input,
+          citycode: citycode,
+        })
         .then((res) => {
           this.tableData = res.data.msg.data;
           this.count = res.data.msg.count;

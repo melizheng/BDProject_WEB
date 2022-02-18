@@ -1,16 +1,7 @@
 <template>
   <div class="Visit">
-    <!--    面包屑导航部分-->
-    <div class="title">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item>首页</el-breadcrumb-item>
-        <el-breadcrumb-item>拜访记录</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
     <!--    总内容导航部分-->
     <div class="content">
-      <span>拜访记录</span>
-      <el-divider></el-divider>
       <!--    搜索与添加区域-->
       <div class="search">
         <my-date-picker @changeTime="changeTime" />
@@ -22,10 +13,13 @@
         <el-input
           class="inputType"
           v-model="input"
-          placeholder="请输入查询拜访的BD姓名、手机号、公司的名称"
+          placeholder="请输入查询拜访的BD姓名、手机号"
           @change="searchInput"
+          style="width: 300px; margin-right: 10px"
         ></el-input>
-        <el-button class="myButton" @click="searchInput">查询</el-button>
+        <el-button class="myButton" @click="searchInput"
+          ><i class="iconfont icon-sousuo"
+        /></el-button>
       </div>
       <!--    表格区域-->
       <div class="wrapper">
@@ -35,8 +29,6 @@
           :header-cell-style="{ background: '#FAFAFA' }"
         >
           <el-table-column prop="user_name" label="拜访BD" min-width="10%">
-          </el-table-column>
-          <el-table-column prop="company_name" label="拜访对象" min-width="10%">
           </el-table-column>
           <el-table-column prop="address" label="拜访地址" min-width="30%">
           </el-table-column>
@@ -85,7 +77,7 @@ import MyVisitsStatusDropdown from "@/components/VisitsList/MyVisitsStatusDropdo
 import MyDatePicker from "@/components/common/MyDatePicker";
 import { formatDate } from "@/assets/js/date";
 export default {
-  name: "VisitsList",
+  name: "Visits",
   components: {
     MyPagination,
     MyVisitsStatusDropdown,
@@ -94,7 +86,7 @@ export default {
   data() {
     return {
       pageNow: 1,
-      pageSize: 8,
+      pageSize: 5,
       input: "",
       tableData: [],
       count: 0,
@@ -114,10 +106,11 @@ export default {
      * @param input
      * @param citycode
      */
-    http(page, input, visitsstatus, starttime, endtime) {
+    http(page, custom_id, input, visitsstatus, starttime, endtime) {
       api
         .getVisitList({
           page: page,
+          custom_id: custom_id,
           size: this.pageSize,
           input: input,
           status: visitsstatus,
@@ -137,6 +130,7 @@ export default {
       this.pageNow = page;
       this.http(
         this.pageNow,
+        this.$route.query.id,
         this.input,
         this.visitsStatus,
         this.startTime,
@@ -148,7 +142,14 @@ export default {
      */
     searchInput() {
       this.pageNow = 1;
-      this.http(1, this.input, this.visitsStatus, this.startTime, this.endTime);
+      this.http(
+        1,
+        this.$route.query.id,
+        this.input,
+        this.visitsStatus,
+        this.startTime,
+        this.endTime
+      );
     },
     /**
      * 修改了合作状态并请求新数据
@@ -175,25 +176,12 @@ export default {
   },
   //生命周期方法
   created() {
-    this.http(1);
+    this.http(1, this.$route.query.id);
   },
 };
 </script>
 
 <style xml:lang="less" scoped>
-.Visit {
-  margin: 20px;
-}
-.title {
-  margin-bottom: 15px;
-}
-.content {
-  padding: 20px;
-  background: white;
-  border: 1px solid #e7eaed;
-  border-radius: 4px;
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.04);
-}
 .search {
   display: flex;
 }

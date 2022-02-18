@@ -29,61 +29,66 @@
           style="width: 100%"
           :header-cell-style="{ background: '#FAFAFA' }"
         >
-          <el-table-column prop="reporter_name" label="汇报BD" min-width="10%">
+          <el-table-column prop="reporter_name" label="汇报BD" min-width="8%">
           </el-table-column>
-          <el-table-column prop="rule_name" label="汇报规则" min-width="10%">
+          <el-table-column prop="rule_name" label="汇报规则" min-width="8%">
           </el-table-column>
           <el-table-column prop="work_summary" label="汇报内容" min-width="40%">
           </el-table-column>
-          <el-table-column prop="visit_total" label="打卡总数" min-width="4%">
+          <el-table-column
+            prop="visit_total"
+            label="打卡总数"
+            min-width="8%"
+            align="center"
+          >
           </el-table-column>
           <el-table-column
             prop="submittime"
             label="提交时间"
-            min-width="11%"
+            min-width="15%"
             :formatter="submittimeFormat"
           >
           </el-table-column>
           <el-table-column
             prop="deadline"
             label="截止时间"
-            min-width="11%"
+            min-width="15%"
             :formatter="deadtimeFormat"
           >
           </el-table-column>
-          <el-table-column prop="status" min-width="2%">
+          <el-table-column prop="status" label="汇报状态" min-width="15%">
             <template v-slot="scope">
-              <span
-                v-if="statusFormat(scope.row) === '未提交'"
-                style="color: darkorange"
-                ><i class="iconfont icon-status"
-              /></span>
-              <span
-                v-else-if="statusFormat(scope.row) === '提交未读'"
-                style="color: lightgreen"
-                ><i class="iconfont icon-status"
-              /></span>
-              <span
-                v-else-if="statusFormat(scope.row) === '提交已读'"
-                style="color: skyblue"
-                ><i class="iconfont icon-status"
-              /></span>
-              <span
-                v-else-if="statusFormat(scope.row) === '未开始'"
-                style="color: #cdcdcd"
-                ><i class="iconfont icon-status"
-              /></span>
-              <span v-else style="color: red"
-                ><i class="iconfont icon-status"
-              /></span>
+              <span v-if="statusFormat(scope.row) === '未提交'"
+                ><i
+                  class="iconfont icon-status"
+                  style="color: darkorange; margin-right: 5px"
+                />未提交</span
+              >
+              <span v-else-if="statusFormat(scope.row) === '提交未读'"
+                ><i
+                  class="iconfont icon-status"
+                  style="color: lightgreen; margin-right: 5px"
+                />提交未读</span
+              >
+              <span v-else-if="statusFormat(scope.row) === '提交已读'"
+                ><i
+                  class="iconfont icon-status"
+                  style="color: skyblue; margin-right: 5px"
+                />提交已读</span
+              >
+              <span v-else-if="statusFormat(scope.row) === '未开始'"
+                ><i
+                  class="iconfont icon-status"
+                  style="color: #cdcdcd; margin-right: 5px"
+                />未开始</span
+              >
+              <span v-else
+                ><i
+                  class="iconfont icon-status"
+                  style="color: red; margin-right: 5px"
+                />已逾期</span
+              >
             </template>
-          </el-table-column>
-          <el-table-column
-            prop="status"
-            label="状态"
-            min-width="10% "
-            :formatter="statusFormat"
-          >
           </el-table-column>
           <el-table-column label="操作" min-width="10%">
             <template v-slot="scope">
@@ -98,7 +103,12 @@
         </el-table>
       </div>
       <!--分页区域-->
-      <MyPagination :currentCount="count" @changePage="changePage" :pageSize="pageSize" :currentPage="pageNow"/>
+      <MyPagination
+        :currentCount="count"
+        @changePage="changePage"
+        :pageSize="pageSize"
+        :currentPage="pageNow"
+      />
     </div>
   </div>
 </template>
@@ -117,7 +127,7 @@ export default {
   data() {
     return {
       pageNow: 1,
-      pageSize:8,
+      pageSize: 8,
       input: "",
       tableData: [],
       count: 0,
@@ -181,14 +191,14 @@ export default {
      * @param page
      */
     changePage(page) {
-      this.pageNow=page;
+      this.pageNow = page;
       this.http(this.pageNow, this.input, this.startTime, this.endTime);
     },
     /**
      * 条件修改进行搜索-页面强制为1
      */
     searchInput() {
-      this.pageNow=1;
+      this.pageNow = 1;
       this.http(1, this.input, this.startTime, this.endTime);
     },
     /**

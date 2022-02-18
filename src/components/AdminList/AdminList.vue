@@ -72,7 +72,12 @@
         </el-table>
       </div>
       <!--分页区域-->
-      <MyPagination :currentCount="count" @changePage="changePage" :pageSize="pageSize" :currentPage="pageNow"/>
+      <MyPagination
+        :currentCount="count"
+        @changePage="changePage"
+        :pageSize="pageSize"
+        :currentPage="pageNow"
+      />
       <!--弹窗增加管理员用户-->
       <AddAccount ref="AddAccountDialog" />
       <!--弹窗编辑管理员用户-->
@@ -100,7 +105,7 @@ export default {
       tableData: [],
       count: 0,
       pageNow: 1,
-      pageSize:8,
+      pageSize: 8,
     };
   },
   methods: {
@@ -189,26 +194,28 @@ export default {
      * @param input
      */
     http(page, input) {
-      api.getAdminList({ page: page, size: this.pageSize, input: input }).then((res) => {
-        if (res.data.code === 1) {
-          this.tableData = res.data.msg.data;
-          this.count = res.data.msg.count;
-        }
-      });
+      api
+        .getAdminList({ page: page, size: this.pageSize, input: input })
+        .then((res) => {
+          if (res.data.code === 1) {
+            this.tableData = res.data.msg.data;
+            this.count = res.data.msg.count;
+          }
+        });
     },
     /**
      * 修改页码时进行分页查找
      * @param page
      */
     changePage(page) {
-      this.pageNow=page;
+      this.pageNow = page;
       this.http(this.pageNow, this.input);
     },
     /**
      * 输入框搜索-页面强制为1
      */
     searchInput() {
-      this.pageNow=1;
+      this.pageNow = 1;
       this.http(this.pageNow, this.input);
     },
   },

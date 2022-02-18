@@ -60,7 +60,12 @@
         </el-table>
       </div>
       <!--分页区域-->
-      <MyPagination :currentCount="count" @changePage="changePage" :pageSize="pageSize" :currentPage="pageNow"/>
+      <MyPagination
+        :currentCount="count"
+        @changePage="changePage"
+        :pageSize="pageSize"
+        :currentPage="pageNow"
+      />
     </div>
   </div>
 </template>
@@ -80,7 +85,7 @@ export default {
   data() {
     return {
       pageNow: 1,
-      pageSize:8,
+      pageSize: 8,
       input: "",
       tableData: [],
       count: 0,
@@ -122,14 +127,14 @@ export default {
      * @param page
      */
     changePage(page) {
-      this.pageNow=page;
+      this.pageNow = page;
       this.http(page, this.input, this.city_code, this.companyStatus);
     },
     /**
      * 条件修改进行搜索-页面强制为1
      */
     searchInput() {
-      this.pageNow=1;
+      this.pageNow = 1;
       this.http(1, this.input, this.city_code, this.companyStatus);
     },
     /**

@@ -132,6 +132,30 @@ const userApi = {
     });
   },
   /**
+   * 得到一个客户的详细信息
+   * @param params
+   * @returns {*}
+   */
+  getOneCustom: (params) => {
+    return request({
+      url: "/getonecustom",
+      method: "get",
+      params: params,
+    });
+  },
+  /**
+   * 修改客户的对接bd
+   * @param params
+   * @returns {*}
+   */
+  updateCustomToBD: (params) => {
+    return request({
+      url: "/updatecustomtobd",
+      method: "get",
+      params: params,
+    });
+  },
+  /**
    * 得到可見的審核列表
    * @param params
    * @returns {*}
@@ -144,7 +168,7 @@ const userApi = {
     });
   },
   /**
-   * 得到可見的審核列表
+   * 审核操作
    * @param params
    * @returns {*}
    */
@@ -175,6 +199,18 @@ const userApi = {
   getReportRecordList: (params) => {
     return request({
       url: "/getreportrecordlist",
+      method: "get",
+      params: params,
+    });
+  },
+  /**
+   * 得到拜访地址
+   * @param params
+   * @returns {*}
+   */
+  getCustomVisitList: (params) => {
+    return request({
+      url: "/getcustomvisit",
       method: "get",
       params: params,
     });

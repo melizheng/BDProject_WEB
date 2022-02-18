@@ -6,7 +6,6 @@ import ElementUI from "element-plus";
 import "element-plus/dist/index.css";
 import locale from "element-plus/lib/locale/lang/zh-cn";
 import "./assets/css/reset.css";
-
 //钩子函数判断是否拦截 router.beforeEach()，意思是在访问每一个路由前调用
 router.beforeEach((to, from, next) => {
   //访问需要查看是否登录的页面时
@@ -38,5 +37,8 @@ router.beforeEach((to, from, next) => {
     }
   }
 });
-
-createApp(App).use(store).use(router).use(ElementUI, { locale }).mount("#app");
+createApp(App)
+  .use(store)
+  .use(router)
+  .use(ElementUI, { locale })
+  .mount("#app");
