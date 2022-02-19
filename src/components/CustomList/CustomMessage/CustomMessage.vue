@@ -12,10 +12,11 @@
     <div class="content">
       <!--    基础信息 包含编辑-->
       <div class="basic-information">
+        <edit-custom-message ref="editCustom"></edit-custom-message>
         <div class="basic-information-head">
           <div class="basic-information-head-name">客户信息</div>
           <div class="basic-information-head-name-edit">
-            <el-button class="myButton">编辑客户信息</el-button>
+            <el-button class="myButton" @click="editCustom">编辑客户信息</el-button>
           </div>
         </div>
         <el-divider></el-divider>
@@ -166,9 +167,11 @@ import api from "@/api/api";
 import myPagination from "@/components/common/MyPagination";
 import Visits from "@/components/CustomList/CustomMessage/Visits";
 import EditCustomBD from "@/components/CustomList/CustomMessage/EditCustomBD";
+import EditCustomMessage from "@/components/CustomList/CustomMessage/EidtCustomMessage"
 export default {
   name: "CustomMessage",
   components: {
+    EditCustomMessage,
     EditCustomBD,
     Visits,
     myPagination,
@@ -189,6 +192,12 @@ export default {
     };
   },
   methods: {
+    editCustom(){
+      this.$refs.editCustom.dialogVisible = true;
+      this.$refs.editCustom.ruleForm.company_name = this.CustomMessage.company_name;
+      this.$refs.editCustom.ruleForm.remark = this.CustomMessage.remark;
+      this.$refs.editCustom.ruleForm.detail_address = this.CustomMessage.detail_address;
+    },
     editBD() {
       this.$refs.editBD.dialogVisible = true;
       this.$refs.editBD.ruleForm.id = this.$route.query.id;

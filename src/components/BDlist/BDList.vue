@@ -1,12 +1,12 @@
 <template>
   <div class="bd">
     <div class="amap-wrapper">
-<!--      <el-amap-->
-<!--        class="amap-box"-->
-<!--        vid="'amap-vue'"-->
-<!--        :zoom="zoom"-->
-<!--        :center="center"-->
-<!--      ></el-amap>-->
+      <!--      <el-amap-->
+      <!--        class="amap-box"-->
+      <!--        vid="'amap-vue'"-->
+      <!--        :zoom="zoom"-->
+      <!--        :center="center"-->
+      <!--      ></el-amap>-->
     </div>
     <!--    面包屑导航部分-->
     <div class="title">

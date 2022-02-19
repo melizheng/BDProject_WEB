@@ -82,7 +82,11 @@ const routes = [
       },
     ],
   },
-
+  {
+    path: "/testmymap",
+    name: "Mymap",
+    component: () => import("../components/common/Mymap"),
+  },
   {
     path: "/login",
     name: "Login",
