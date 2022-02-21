@@ -1,6 +1,19 @@
 import request from "@/api/request";
+import requestQQ from "@/api/requestQQ";
 //get:params  post:data
 const userApi = {
+  /**
+   * 逆地址解析 已知坐标得到地址
+   * @param params
+   * @returns {*}
+   */
+  getAddressByLocation: (params) => {
+    return requestQQ({
+      url: "/ws/geocoder/v1",
+      method: "get",
+      params: params,
+    });
+  },
   /**
    * 得到项目所有的城市并展示
    * @returns {*}
@@ -151,6 +164,54 @@ const userApi = {
   updateCustomToBD: (params) => {
     return request({
       url: "/updatecustomtobd",
+      method: "get",
+      params: params,
+    });
+  },
+  /**
+   * 修改客户的信息
+   * @param params
+   * @returns {*}
+   */
+  updateCustom: (data) => {
+    return request({
+      url: "/updatecustom",
+      method: "post",
+      data: data,
+    });
+  },
+  /**
+   * 增加拜访地址
+   * @param params
+   * @returns {*}
+   */
+  addCustomVisit: (data) => {
+    return request({
+      url: "/addacustomvisit",
+      method: "post",
+      data: data,
+    });
+  },
+  /**
+   * 修改拜访地址
+   * @param params
+   * @returns {*}
+   */
+  updateCustomVisit: (data) => {
+    return request({
+      url: "/updatecustomvisit",
+      method: "post",
+      data: data,
+    });
+  },
+  /**
+   * 删除拜访地址
+   * @param params
+   * @returns {*}
+   */
+  deleteCustomVisit: (params) => {
+    return request({
+      url: "/deletecustomvisit",
       method: "get",
       params: params,
     });

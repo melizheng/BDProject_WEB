@@ -16,7 +16,9 @@
         <div class="basic-information-head">
           <div class="basic-information-head-name">客户信息</div>
           <div class="basic-information-head-name-edit">
-            <el-button class="myButton" @click="editCustom">编辑客户信息</el-button>
+            <el-button class="myButton" @click="editCustom"
+              >编辑客户信息</el-button
+            >
           </div>
         </div>
         <el-divider></el-divider>
@@ -37,7 +39,8 @@
         <div class="basic-information-content-name">
           <div class="basic-information-content-column">备注：</div>
           <div class="basic-information-content-value">
-            {{ CustomMessage.remark }}
+            <span v-if="CustomMessage.remark === ''">-</span>
+            <span v-else> {{ CustomMessage.remark }}</span>
           </div>
         </div>
       </div>
@@ -69,10 +72,20 @@
       </div>
       <!--    拜访地址列表 修改等操作-->
       <div class="basic-customVisit">
+        <edit-custom-visit
+          ref="editCustomVisit"
+          :pageNow="CustomVisitPageNow"
+        ></edit-custom-visit>
+        <add-custom-visit
+          :pageNow="CustomVisitPageNow"
+          ref="addCustomVisit"
+        ></add-custom-visit>
         <div class="basic-information-head">
           <div class="basic-information-head-name">拜访地址</div>
           <div class="basic-customVisit-head-edit">
-            <el-button class="myButton">新增地址</el-button>
+            <el-button class="myButton" @click="addCustomVisit"
+              >新增地址</el-button
+            >
           </div>
         </div>
         <el-divider></el-divider>
@@ -128,13 +141,13 @@
             <el-table-column label="操作" min-width="10%" align="center">
               <template v-slot="scope">
                 <el-button
-                  @click="handleClickDetailEditVisit(scope.$index, scope.row)"
+                  @click="handleClickDetailEditVisit(scope.row)"
                   type="text"
                   size="small"
                   >编辑</el-button
                 >
                 <el-button
-                  @click="handleClickDetailDeleteVisit(scope.$index, scope.row)"
+                  @click="handleClickDetailDeleteVisit(scope.row)"
                   type="text"
                   size="small"
                   >删除</el-button
@@ -167,10 +180,14 @@ import api from "@/api/api";
 import myPagination from "@/components/common/MyPagination";
 import Visits from "@/components/CustomList/CustomMessage/Visits";
 import EditCustomBD from "@/components/CustomList/CustomMessage/EditCustomBD";
-import EditCustomMessage from "@/components/CustomList/CustomMessage/EidtCustomMessage"
+import EditCustomMessage from "@/components/CustomList/CustomMessage/EidtCustomMessage";
+import EditCustomVisit from "@/components/CustomList/CustomMessage/EditCustomVisit";
+import addCustomVisit from "@/components/CustomList/CustomMessage/AddCustomVisit";
 export default {
   name: "CustomMessage",
   components: {
+    addCustomVisit,
+    EditCustomVisit,
     EditCustomMessage,
     EditCustomBD,
     Visits,
@@ -183,6 +200,8 @@ export default {
         address: "",
         detail_address: "",
         remark: "",
+        latitude: "",
+        longitude: "",
       },
       tableBDData: [{ name: "", phone: "", cityName: "" }],
       pageSize: 1,
@@ -192,20 +211,80 @@ export default {
     };
   },
   methods: {
-    editCustom(){
-      this.$refs.editCustom.dialogVisible = true;
-      this.$refs.editCustom.ruleForm.company_name = this.CustomMessage.company_name;
+    /**
+     * 修改客户信息
+     */
+    editCustom() {
+      this.$refs.editCustom.ruleForm.id = this.$route.query.id;
+      this.$refs.editCustom.ruleForm.company_name =
+        this.CustomMessage.company_name;
+      this.$refs.editCustom.ruleForm.address = this.CustomMessage.address;
+      this.$refs.editCustom.ruleForm.detail_address =
+        this.CustomMessage.detail_address;
       this.$refs.editCustom.ruleForm.remark = this.CustomMessage.remark;
-      this.$refs.editCustom.ruleForm.detail_address = this.CustomMessage.detail_address;
+      this.$refs.editCustom.ruleForm.latitude = this.CustomMessage.latitude;
+      this.$refs.editCustom.ruleForm.longitude = this.CustomMessage.longitude;
+      this.$refs.editCustom.dialogVisible = true;
     },
+    /**
+     * 修改对接BD
+     */
     editBD() {
       this.$refs.editBD.dialogVisible = true;
       this.$refs.editBD.ruleForm.id = this.$route.query.id;
     },
-    handleClickDetailEditVisit() {},
-    handleClickDetailDeleteVisit() {},
     /**
-     * 修改拜访地址的列表
+     * 增加拜访地址
+     */
+    addCustomVisit() {
+      this.$refs.addCustomVisit.dialogVisible = true;
+      this.$refs.addCustomVisit.ruleForm.custom_id = this.$route.query.id;
+    },
+    /**
+     * 修改拜访地址
+     * @param row
+     */
+    handleClickDetailEditVisit(row) {
+      this.$refs.editCustomVisit.ruleForm.id = row.id;
+      this.$refs.editCustomVisit.ruleForm.address = row.address;
+      this.$refs.editCustomVisit.ruleForm.detail_address = row.detail_address;
+      this.$refs.editCustomVisit.ruleForm.latitude = row.latitude;
+      this.$refs.editCustomVisit.ruleForm.longitude = row.longitude;
+      this.$refs.editCustomVisit.ruleForm.contract_name = row.contract_name;
+      this.$refs.editCustomVisit.ruleForm.phone = row.phone;
+      this.$refs.editCustomVisit.ruleForm.position = row.position;
+      this.$refs.editCustomVisit.dialogVisible = true;
+    },
+    /**
+     * 删除拜访地址
+     */
+    handleClickDetailDeleteVisit(row) {
+      this.$confirm("此操作将永久删除该拜访地址, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          //请求删除接口——
+          api.deleteCustomVisit({ id: row.id }).then((res) => {
+            if (res.data.code === 1) {
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
+              this.httpGetCustomVisitList(this.CustomVisitPageNow);
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+    /**
+     * 修改拜访地址的页数
      * @param page
      */
     changePage(page) {
@@ -308,7 +387,7 @@ export default {
 }
 .basic-information-content-address {
   position: absolute;
-  left: 900px;
+  left: 500px;
   display: flex;
 }
 .basic-information-content-column {

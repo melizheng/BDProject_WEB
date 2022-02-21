@@ -12,14 +12,14 @@
           <el-select
             filterable
             v-model="ruleForm.user_id"
-            placeholder="输入BD名称搜索"
+            placeholder="输入BD名称、手机号搜索"
             @change="chooseBD"
             clearable
           >
             <el-option
               v-for="item in BDS"
               :key="item.id"
-              :label="item.name"
+              :label="item.name + ' ' + item.phone"
               :value="item.id"
             >
             </el-option>
@@ -45,7 +45,7 @@ export default {
   name: "EditCustomBD",
   data() {
     return {
-      item: { id: "", name: "" },
+      item: { id: "", name: "", disabled: "" },
       BDS: [],
       dialogVisible: false,
       ruleForm: {
@@ -75,6 +75,10 @@ export default {
             .then((res) => {
               if (res.data.code === 1) {
                 //修改成功
+                this.$message({
+                  type: "success",
+                  message: "修改对接人成功!",
+                });
                 this.closeDialog();
                 this.$parent.httpGetOneBD(this.ruleForm.user_id);
               }
