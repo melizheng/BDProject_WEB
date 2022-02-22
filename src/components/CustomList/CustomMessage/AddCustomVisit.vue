@@ -68,6 +68,7 @@ export default {
         latitude: "39.916527",
         longitude: "116.397128",
         city_code: "",
+        city_name:"",
         contract_name: "",
         position: "",
         phone: "",
@@ -98,12 +99,14 @@ export default {
           if (res.data.status === 0) {
             this.ruleForm.address = res.data.result.address;
             this.ruleForm.city_code = res.data.result.ad_info.city_code;
+            this.ruleForm.city_name=res.data.result.address_component.city;
             api
               .addCustomVisit({
                 custom_id: this.ruleForm.custom_id,
                 address: this.ruleForm.address,
                 detail_address: this.ruleForm.detail_address,
                 city_code: this.ruleForm.city_code,
+                city_name: this.ruleForm.city_name,
                 latitude: this.ruleForm.latitude,
                 longitude: this.ruleForm.longitude,
                 contract_name: this.ruleForm.contract_name,
