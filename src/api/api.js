@@ -97,6 +97,18 @@ const userApi = {
     });
   },
   /**
+   * 更新用户状态，禁用-启用
+   * @param data
+   * @returns {*}
+   */
+  updatePassw: (data) => {
+    return request({
+      url: "/updatepassw",
+      method: "post",
+      data: data,
+    });
+  },
+  /**
    * 得到BD的列表
    * @param params
    * @returns {*}
@@ -260,6 +272,18 @@ const userApi = {
   getReportRecordList: (params) => {
     return request({
       url: "/getreportrecordlist",
+      method: "get",
+      params: params,
+    });
+  },
+  /**
+   * 得到汇报记录
+   * @param params
+   * @returns {*}
+   */
+  getReportRecord: (params) => {
+    return request({
+      url: "/getreportrecord",
       method: "get",
       params: params,
     });

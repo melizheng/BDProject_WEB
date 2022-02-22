@@ -204,7 +204,7 @@ export default {
         longitude: "",
       },
       tableBDData: [{ name: "", phone: "", cityName: "" }],
-      pageSize: 1,
+      pageSize: 4,
       tableCustomVisitData: [],
       CustomVisitCount: 0,
       CustomVisitPageNow: 1,

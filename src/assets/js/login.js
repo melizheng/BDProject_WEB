@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { ElMessageBox } from "element-plus";
+import hex_md5 from "@/assets/js/MD5";
 Axios.defaults.baseURL = "/api";
 function login() {
   this.$refs.loginFormref.validate((valid) => {
@@ -7,7 +8,7 @@ function login() {
     if (valid) {
       Axios.post("/userlogin", {
         phone: this.loginForm.phone,
-        password: this.loginForm.password,
+        password: hex_md5(this.loginForm.password),
         account_type: 1,
       }).then((successResponse) => {
         //如果接口返回的数据data的code为1

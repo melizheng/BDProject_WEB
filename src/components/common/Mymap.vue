@@ -29,9 +29,6 @@ export default {
     },
   },
   mounted() {
-    // //标记的数组
-    // var markersArray = [];
-    // 地图的中心地理坐标
     this.loadmap();
   },
   methods: {
@@ -53,8 +50,6 @@ export default {
         position: center,
         map: this.map,
       });
-      //存放在标记数组中
-      // markersArray.push(marker);
       // 获取点击默认标记的点击事件
       window.qq.maps.event.addListener(this.marker, "click", () => {
         //修改父组件的lat和lng
@@ -79,33 +74,6 @@ export default {
             event.latLng.getLng()
           )
         );
-        // this.marker.setPosition(event.latLng.getLat(), event.latLng.getLng());
-        //清空所有标记
-        // if (markersArray) {
-        //   var i = 0;
-        //   for (i in markersArray) {
-        //     markersArray[i].setMap(null);
-        //   }
-        // }
-        //新增标记点
-        // marker = new window.qq.maps.Marker({
-        //   position: new window.qq.maps.LatLng(
-        //     event.latLng.getLat(),
-        //     event.latLng.getLng()
-        //   ),
-        //   map: this.map,
-        // });
-        // //存放在标记数组中
-        // markersArray.push(marker);
-        // 获取点击了新增标记的点击事件
-        // window.qq.maps.event.addListener(marker, "click", () => {
-        //   //修改父组件的lat和lng
-        //   this.changeLatAndLng(
-        //     marker.getPosition().lat,
-        //     marker.getPosition().lng
-        //   );
-        //   console.log(marker.getPosition().lat, marker.getPosition().lng);
-        // });
       });
       //实例化自动完成
       var ap = new window.qq.maps.place.Autocomplete(
@@ -133,47 +101,10 @@ export default {
             latlngBounds.extend(poi.latLng);
             //修改标记的坐标
             this.marker.setPosition(poi.latLng);
-            // var marker = new window.qq.maps.Marker({
-            //   map: this.map,
-            //   position: poi.latLng,
-            // });
             this.marker.setTitle(poi.name);
-            // markersArray.push(marker);
             //暂时限制只有一个显示哈
           }
           this.map.fitBounds(latlngBounds);
-          // //选中其中一个标记的情况
-          // window.qq.maps.event.addListener(marker, "click", () => {
-          //   //修改父组件的lat和lng
-          //   this.changeLatAndLng(
-          //     marker.getPosition().lat,
-          //     marker.getPosition().lng
-          //   );
-          //   console.log(marker.getPosition().lat, marker.getPosition().lng);
-          //   //清空
-          //   if (markersArray) {
-          //     for (var i = 0; i < markersArray.length; i++) {
-          //       markersArray[i].setMap(null);
-          //     }
-          //   }
-          //   //增加
-          //   //新增标记点
-          //   marker = new window.qq.maps.Marker({
-          //     position: marker.getPosition(),
-          //     map: this.map,
-          //   });
-          //   //存放在标记数组中
-          //   markersArray.push(marker);
-          //   // 获取点击了新增标记的点击事件
-          //   window.qq.maps.event.addListener(marker, "click", () => {
-          //     //修改父组件的lat和lng
-          //     this.changeLatAndLng(
-          //       marker.getPosition().lat,
-          //       marker.getPosition().lng
-          //     );
-          //     console.log(marker.getPosition().lat, marker.getPosition().lng);
-          //   });
-          // });
         },
       });
       //添加搜索监听事件
@@ -184,11 +115,6 @@ export default {
     },
     changeLatAndLng(lat, lng) {
       this.$emit("changeLatAndLng", lat, lng);
-    },
-    setCenterAndMarker(lat, lng) {
-      var center = new window.qq.maps.LatLng(lat, lng);
-      this.map.setCenter(center);
-      this.marker.setPosition(center);
     },
   },
 };

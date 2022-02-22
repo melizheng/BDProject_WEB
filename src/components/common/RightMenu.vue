@@ -3,6 +3,7 @@
   <div class="right">
     <!--  顶部区域-->
     <div class="header">
+      <edit-password ref="editPassword"></edit-password>
       <div class="my">
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
@@ -27,14 +28,17 @@
 
 <script>
 import store from "@/store";
-
+import editPassword from "@/components/common/EditPassword";
 export default {
   //在div被引用的时候必须是<v-menu></v-menu>  命名很重要不能有问题 否则导致引用失败 无语了
   name: "v-right-menu",
+  components: {
+    editPassword,
+  },
   methods: {
     handleCommand(command) {
       if (command === "a") {
-        this.$message("修改密码");
+        this.$refs.editPassword.dialogVisible = true;
       } else this.goout();
     },
     goout() {

@@ -80,6 +80,14 @@ const routes = [
           requireAuth: true,
         },
       },
+      {
+        path: "/reportmessage",
+        name: "ReportMessage",
+        component: () => import("../components/ReportList/ReportMessage"),
+        meta: {
+          requireAuth: true,
+        },
+      },
     ],
   },
   {

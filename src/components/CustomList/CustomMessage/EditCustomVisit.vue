@@ -119,12 +119,6 @@ export default {
                   });
                   this.closeDialog();
                   this.$parent.httpGetCustomVisitList(this.pageNow);
-                } else {
-                  ElMessageBox.confirm(res.data.msg, "提示", {
-                    showCancelButton: false,
-                    type: "warning",
-                  });
-                  return Promise.reject("error");
                 }
               });
           } else {

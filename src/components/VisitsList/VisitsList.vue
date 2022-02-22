@@ -38,7 +38,12 @@
           </el-table-column>
           <el-table-column prop="company_name" label="拜访对象" min-width="10%">
           </el-table-column>
-          <el-table-column prop="address" label="拜访地址" min-width="30%">
+          <el-table-column
+            prop="address"
+            label="拜访地址"
+            min-width="25%"
+            show-overflow-tooltip
+          >
           </el-table-column>
           <el-table-column
             prop="create_time"
@@ -47,7 +52,7 @@
             :formatter="createtimeFormat"
           >
           </el-table-column>
-          <el-table-column prop="status" label="打卡状态" min-width="15%">
+          <el-table-column prop="status" label="打卡状态" min-width="10%">
             <template v-slot="scope">
               <span v-if="scope.row.status === 2"
                 ><i
@@ -63,7 +68,32 @@
               >
             </template>
           </el-table-column>
-          <el-table-column prop="remark" label="备注" min-width="10%">
+          <el-table-column
+            prop="remark"
+            label="备注"
+            min-width="10%"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column prop="url" label="图片" min-width="15%">
+            <template v-slot="scope">
+              <span v-if="scope.row.url == null">-</span>
+              <span v-else>
+                <div class="images" v-viewer>
+                  <img
+                    v-for="item in scope.row.picture"
+                    :src="item"
+                    :key="item"
+                    style="
+                      width: 50px;
+                      height: 50px;
+                      margin-right: 5px;
+                      margin-bottom: 5px;
+                    "
+                  />
+                </div>
+              </span>
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -101,6 +131,7 @@ export default {
       visitsStatus: "",
       startTime: null,
       endTime: null,
+      item: "",
     };
   },
   methods: {
@@ -127,6 +158,11 @@ export default {
         .then((res) => {
           this.tableData = res.data.msg.data;
           this.count = res.data.msg.count;
+          if (this.count > 0)
+            for (var i = 0; i < this.tableData.length; i++) {
+              if (this.tableData[i].url)
+                this.tableData[i].picture = this.tableData[i].url.split(",");
+            }
         });
     },
     /**

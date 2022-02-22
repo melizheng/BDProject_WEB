@@ -218,15 +218,20 @@
               style="width: 100%"
               :header-cell-style="{ background: '#FAFAFA' }"
             >
-              <el-table-column prop="user_name" label="拜访BD" min-width="10%">
-              </el-table-column>
+              <!--              <el-table-column prop="user_name" label="拜访BD" min-width="10%">-->
+              <!--              </el-table-column>-->
               <el-table-column
                 prop="company_name"
                 label="拜访对象"
                 min-width="10%"
               >
               </el-table-column>
-              <el-table-column prop="address" label="拜访地址" min-width="30%">
+              <el-table-column
+                prop="address"
+                label="拜访地址"
+                min-width="35%"
+                show-overflow-tooltip
+              >
               </el-table-column>
               <el-table-column
                 prop="create_time"
@@ -235,7 +240,7 @@
                 :formatter="createtimeFormat"
               >
               </el-table-column>
-              <el-table-column prop="status" label="打卡状态" min-width="15%">
+              <el-table-column prop="status" label="打卡状态" min-width="10%">
                 <template v-slot="scope">
                   <span v-if="scope.row.status === 2"
                     ><i
@@ -251,7 +256,32 @@
                   >
                 </template>
               </el-table-column>
-              <el-table-column prop="remark" label="备注" min-width="10%">
+              <el-table-column
+                prop="remark"
+                label="备注"
+                min-width="15%"
+                show-overflow-tooltip
+              >
+              </el-table-column>
+              <el-table-column prop="url" label="图片" min-width="15%">
+                <template v-slot="scope">
+                  <span v-if="scope.row.url == null">-</span>
+                  <span v-else>
+                    <div class="images" v-viewer>
+                      <img
+                        v-for="picture in scope.row.picture"
+                        :src="picture"
+                        :key="picture"
+                        style="
+                          width: 50px;
+                          height: 50px;
+                          margin-right: 5px;
+                          margin-bottom: 5px;
+                        "
+                      />
+                    </div>
+                  </span>
+                </template>
               </el-table-column>
             </el-table>
           </div>
@@ -290,6 +320,7 @@ export default {
   },
   data() {
     return {
+      picture: "",
       tableChoose: "拜访记录",
       visitimg: visitimg,
       customimg: customimg,
@@ -386,6 +417,12 @@ export default {
         .then((res) => {
           this.tableVisitsData = res.data.msg.data;
           this.countVisit = res.data.msg.count;
+          if (this.countVisit > 0)
+            for (var i = 0; i < this.tableVisitsData.length; i++) {
+              if (this.tableVisitsData[i].url)
+                this.tableVisitsData[i].picture =
+                  this.tableVisitsData[i].url.split(",");
+            }
         });
     },
     /**

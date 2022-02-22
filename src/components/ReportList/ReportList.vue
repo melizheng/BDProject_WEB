@@ -31,32 +31,39 @@
         >
           <el-table-column prop="reporter_name" label="汇报BD" min-width="8%">
           </el-table-column>
-          <el-table-column prop="rule_name" label="汇报规则" min-width="8%">
+          <el-table-column prop="rule_name" label="汇报规则" min-width="10%">
           </el-table-column>
           <el-table-column prop="work_summary" label="汇报内容" min-width="40%">
           </el-table-column>
           <el-table-column
             prop="visit_total"
             label="打卡总数"
-            min-width="8%"
+            min-width="10%"
             align="center"
           >
           </el-table-column>
           <el-table-column
+            align="center"
             prop="submittime"
             label="提交时间"
-            min-width="15%"
+            min-width="18%"
             :formatter="submittimeFormat"
           >
           </el-table-column>
           <el-table-column
+            align="center"
             prop="deadline"
             label="截止时间"
-            min-width="15%"
+            min-width="18%"
             :formatter="deadtimeFormat"
           >
           </el-table-column>
-          <el-table-column prop="status" label="汇报状态" min-width="15%">
+          <el-table-column
+            prop="status"
+            label="汇报状态"
+            min-width="15%"
+            align="center"
+          >
             <template v-slot="scope">
               <span v-if="statusFormat(scope.row) === '未提交'"
                 ><i
@@ -90,10 +97,10 @@
               >
             </template>
           </el-table-column>
-          <el-table-column label="操作" min-width="10%">
+          <el-table-column label="操作" min-width="8%">
             <template v-slot="scope">
               <el-button
-                @click="handleClickDetail(scope.$index, scope.row)"
+                @click="handleClickDetail(scope.row)"
                 type="text"
                 size="small"
                 >详情</el-button
@@ -163,8 +170,8 @@ export default {
      * @param index
      * @param row
      */
-    handleClickDetail(index, row) {
-      console.log("查看按钮", index, row);
+    handleClickDetail(row) {
+      this.$router.push({ path: "/reportmessage", query: { id: row.id } });
     },
     /**
      * 封装汇报记录列表的获取
